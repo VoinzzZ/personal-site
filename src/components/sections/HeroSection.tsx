@@ -63,7 +63,7 @@ export default function HeroSection() {
 
         <a
           href="/cv.pdf"
-          download
+          download="antony_kurniawan_CV.pdf"
           className="w-64 px-6 py-3 bg-transparent border border-purple-400 text-purple-300 font-semibold hover:bg-purple-400 hover:text-black transition-colors rounded-none text-center"
         >
           <LetterGlitch

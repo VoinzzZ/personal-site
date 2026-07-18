@@ -3,25 +3,34 @@
 import { useRef, useState, useEffect } from "react";
 import TypingHeading from "@/components/effects/TypingHeading";
 
-interface JournalEntry {
+interface BlogMeta {
   title: string;
-  description: string;
-  tags: string[];
-  type: "project" | "blog" | "certificate";
+  publishedAt: string;
+  summary: string;
+  tag: string;
+  image: string;
 }
 
-const journals: JournalEntry[] = [
-  {
-    title: "Coming Soon",
-    description: "Projects, blogs, and certificates will appear here.",
-    tags: [],
-    type: "project",
-  },
-];
+interface Post {
+  metadata: BlogMeta;
+  slug: string;
+}
 
 export default function JournalsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/posts")
+      .then((res) => res.json())
+      .then((data) => {
+        setPosts(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
   // IntersectionObserver — trigger typing animation on scroll
   useEffect(() => {
@@ -43,16 +52,16 @@ export default function JournalsSection() {
     return () => observer.disconnect();
   }, []);
 
-  const typeLabels: Record<string, string> = {
-    project: "Project",
-    blog: "Blog",
-    certificate: "Certificate",
+  const tagLabels: Record<string, string> = {
+    "Node.js": "Node.js",
+    Go: "Go",
+    Fullstack: "Fullstack",
   };
 
-  const typeColors: Record<string, string> = {
-    project: "text-cyan-400 border-cyan-500/30",
-    blog: "text-green-400 border-green-500/30",
-    certificate: "text-yellow-400 border-yellow-500/30",
+  const tagColors: Record<string, string> = {
+    "Node.js": "text-cyan-400 border-cyan-500/30",
+    Go: "text-blue-400 border-blue-500/30",
+    Fullstack: "text-green-400 border-green-500/30",
   };
 
   return (
@@ -69,53 +78,62 @@ export default function JournalsSection() {
 
         {/* Headline */}
         <div className="mb-6 text-left">
-          <TypingHeading text="LS -LA /JOURNALS" inView={inView} />
+          <TypingHeading text="$ HEAD -N 3 /JOURNALS" inView={inView} />
+        </div>
+
+        <div className="mb-4 text-right">
+          <a
+            href="/journals"
+            className="group font-mono text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
+          >
+            <span className="text-cyan-400">root@personal-site:~/</span>
+            <span className="text-gray-400 group-hover:text-white transition-colors">cd /journals/</span>
+            <span className="text-gray-500 group-hover:text-cyan-400 transition-colors"> →</span>
+          </a>
         </div>
 
         {/* Journal grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {journals.map((entry, idx) => (
-            <div
-              key={idx}
-              className="border border-white/10 rounded-lg bg-[#1a1a1a] p-5 hover:border-cyan-400/50 transition-colors hover:shadow-[0_0_20px_-5px_#22d3ee]"
-            >
-              {/* Type badge */}
-              <span
-                className={`inline-block text-xs font-mono px-2 py-0.5 rounded border mb-3 ${
-                  typeColors[entry.type] || "text-gray-400 border-gray-600"
-                }`}
+          {loading ? (
+            // Skeleton loading
+            Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="border border-white/10 rounded-lg bg-[#1a1a1a] p-5 animate-pulse"
               >
-                {typeLabels[entry.type] || entry.type}
-              </span>
+                <div className="h-4 w-16 bg-white/10 rounded mb-3" />
+                <div className="h-5 w-full bg-white/10 rounded mb-2" />
+                <div className="h-4 w-3/4 bg-white/10 rounded" />
+              </div>
+            ))
+          ) : posts.length > 0 ? (
+            posts.slice(0, 3).map((post) => (
+              <a
+                key={post.slug}
+                href={`/journals/${post.slug}`}
+                className="group block border border-white/10 rounded-lg bg-[#1a1a1a] p-5 hover:border-cyan-400/50 transition-colors hover:shadow-[0_0_20px_-5px_#22d3ee]"
+              >
+                {/* Type badge */}
+                <span
+                  className={`inline-block text-xs font-mono px-2 py-0.5 rounded border mb-3 ${
+                    tagColors[post.metadata.tag] || "text-gray-400 border-gray-600"
+                  }`}
+                >
+                  {tagLabels[post.metadata.tag] || "Blog"}
+                </span>
 
-              {/* Title */}
-              <h3 className="text-base font-semibold text-white font-mono mb-2">
-                {entry.title}
-              </h3>
+                {/* Title */}
+                <h3 className="text-base font-semibold text-white font-mono mb-2 line-clamp-2">
+                  {post.metadata.title}
+                </h3>
 
-              {/* Description */}
-              <p className="text-sm text-gray-400 font-mono leading-relaxed">
-                {entry.description}
-              </p>
-
-              {/* Tags */}
-              {entry.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mt-3">
-                  {entry.tags.map((tag, i) => (
-                    <span
-                      key={i}
-                      className="text-xs text-gray-500 font-mono bg-white/5 px-2 py-0.5 rounded"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-
-          {/* Add placeholder cards if empty */}
-          {journals.length === 0 && (
+                {/* Description */}
+                <p className="text-sm text-gray-400 font-mono leading-relaxed line-clamp-3">
+                  {post.metadata.summary}
+                </p>
+              </a>
+            ))
+          ) : (
             <div className="col-span-full border border-dashed border-gray-700 rounded-lg p-12 text-center">
               <p className="text-gray-500 font-mono text-base">
                 <span className="text-yellow-500">$</span> No entries yet —

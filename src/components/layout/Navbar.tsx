@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { navItems } from "@/constants";
 
 export default function Navbar() {
-  const [activeSection, setActiveSection] = useState("hero");
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   useEffect(() => {
     const sectionIds = navItems
       .filter((item) => item.sectionId)
@@ -33,6 +33,9 @@ export default function Navbar() {
     const el = document.getElementById(sectionId);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      // Section not on current page — redirect to homepage section
+      window.location.href = `/#${sectionId}`;
     }
   };
 

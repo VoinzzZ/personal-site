@@ -1,0 +1,268 @@
+---
+title: "Building a RESTful API with Go and Clean Architecture"
+publishedAt: "2026-02-19"
+summary: "A user management REST API built with Go (Golang) using Clean Architecture principles and MySQL as the database — using only the native net/http package."
+tag: "Go"
+image: "/images/golang-restfull-api.png"
+github: "https://github.com/VoinzzZ/restfull-api-go"
+---
+
+A RESTful API for user management built with **Go (Golang)** using **Clean Architecture** and **MySQL** as the database. This project focuses on writing clean, modular, and maintainable code without relying on heavyweight frameworks.
+
+## Tech Stack
+
+| Technology | Description |
+|---|---|
+| **Go** | Backend language |
+| **net/http** | HTTP server (native) |
+| **MySQL** | Database |
+| **godotenv** | Load environment variables |
+| **bcrypt** | Password hashing |
+
+## Project Structure
+
+```
+restfull-api-go/
+├── cmd/api/main.go                          # Entry point
+├── config/config.go                         # Configuration
+├── internal/
+│   ├── domain/user.go                       # Entity & interface
+│   ├── repository/user_repository.go        # Database layer
+│   ├── usecase/user_usecase.go              # Business logic
+│   └── delivery/http/
+│       ├── handler/user_handler.go          # HTTP handlers
+│       ├── middleware/logger.go             # Logger middleware
+│       └── router/
+│           ├── router.go                    # Main router
+│           └── user_router.go              # User routes
+├── pkg/
+│   ├── database/mysql.go                    # DB connection
+│   └── helper/response.go                  # Response helper
+├── .env.example                             # Environment template
+├── Makefile                                 # Build scripts
+└── go.mod
+```
+
+## Architecture
+
+This project uses **Clean Architecture** with the following request/response flow:
+
+```
+Request → Router → Middleware → Handler → Usecase → Repository → Database
+                                                                      ↓
+Response ← Router ← Middleware ← Handler ← Usecase ← Repository ← Database
+```
+
+| Layer | Package | Responsibility |
+|---|---|---|
+| **Domain** | `internal/domain` | Entity & interface contract |
+| **Repository** | `internal/repository` | Database operations |
+| **Usecase** | `internal/usecase` | Business logic |
+| **Handler** | `internal/delivery/http/handler` | HTTP request/response |
+| **Middleware** | `internal/delivery/http/middleware` | Cross-cutting concerns |
+| **Router** | `internal/delivery/http/router` | Route definitions |
+
+## Quick Start
+
+### 1. Clone & Install
+
+```bash
+git clone https://github.com/VoinzzZ/restfull-api-go.git
+cd restfull-api-go
+go mod tidy
+```
+
+### 2. Setup Environment
+
+```bash
+cp .env.example .env
+```
+
+Fill in your `.env`:
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your_password
+DB_NAME=go_api_db
+PORT=8080
+```
+
+### 3. Setup Database
+
+```sql
+CREATE DATABASE go_api_db;
+
+USE go_api_db;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+### 4. Run the Server
+
+```bash
+make run
+```
+
+Output:
+```
+2026/02/19 01:12:00 Database connected successfully
+2026/02/19 01:12:00 Server starting on http://localhost:8080
+```
+
+## API Endpoints
+
+Base URL: `http://localhost:8080`
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/v1/users` | Create a new user |
+| `GET` | `/api/v1/users` | Get all users |
+| `GET` | `/api/v1/users/{id}` | Get user by ID |
+| `PUT` | `/api/v1/users/{id}` | Update user |
+| `DELETE` | `/api/v1/users/{id}` | Delete user |
+
+## API Reference
+
+### Create User
+
+**POST** `/api/v1/users`
+
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+Response `201 Created`:
+
+```json
+{
+  "status": 201,
+  "message": "User created successfully",
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "created_at": "2026-02-19T01:12:00Z",
+    "updated_at": "2026-02-19T01:12:00Z"
+  }
+}
+```
+
+### Get All Users
+
+**GET** `/api/v1/users`
+
+Response `200 OK`:
+
+```json
+{
+  "status": 200,
+  "message": "Users retrieved successfully",
+  "data": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "created_at": "2026-02-19T01:12:00Z",
+      "updated_at": "2026-02-19T01:12:00Z"
+    }
+  ]
+}
+```
+
+### Get User by ID
+
+**GET** `/api/v1/users/{id}`
+
+Response `200 OK`:
+
+```json
+{
+  "status": 200,
+  "message": "User found",
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com"
+  }
+}
+```
+
+Response `404 Not Found`:
+
+```json
+{
+  "status": 404,
+  "message": "user not found"
+}
+```
+
+### Update User
+
+**PUT** `/api/v1/users/{id}`
+
+```json
+{
+  "name": "John Updated",
+  "email": "john.new@example.com"
+}
+```
+
+### Delete User
+
+**DELETE** `/api/v1/users/{id}`
+
+Response `200 OK`:
+
+```json
+{
+  "status": 200,
+  "message": "User deleted successfully"
+}
+```
+
+## Testing with cURL
+
+```bash
+# Create user
+curl -X POST http://localhost:8080/api/v1/users \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Doe","email":"john@example.com","password":"password123"}'
+
+# Get all users
+curl http://localhost:8080/api/v1/users
+
+# Get user by ID
+curl http://localhost:8080/api/v1/users/1
+
+# Update user
+curl -X PUT http://localhost:8080/api/v1/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Updated","email":"john.new@example.com"}'
+
+# Delete user
+curl -X DELETE http://localhost:8080/api/v1/users/1
+```
+
+## Makefile Commands
+
+```bash
+make run    # Run the server (development)
+make build  # Compile to binary
+make start  # Run the compiled binary
+make clean  # Remove binary
+```
+
+> Source code available on [GitHub](https://github.com/VoinzzZ/restfull-api-go).

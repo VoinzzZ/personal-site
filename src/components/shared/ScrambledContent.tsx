@@ -18,7 +18,7 @@ export default function ScrambledContent({
     const el = rootRef.current;
     if (!el) return;
 
-    let split: gsap.plugins.SplitText | null = null;
+    let split: SplitText | null = null;
 
     const init = () => {
       // Cari paragraf dan heading yang ada di dalam

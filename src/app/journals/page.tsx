@@ -46,7 +46,7 @@ function FlipCard({ post }: { post: Post }) {
 
   return (
     <div
-      className="group relative h-95 perspective-[1000px]"
+      className="group relative h-80 sm:h-95 perspective-[1000px]"
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
     >
@@ -86,7 +86,7 @@ function FlipCard({ post }: { post: Post }) {
                 })}
               </span>
             </div>
-            <h3 className="text-base font-semibold text-white font-mono mb-1 group-hover:text-cyan-400 transition-colors line-clamp-2">
+            <h3 className="text-sm sm:text-base font-semibold text-white font-mono mb-1 group-hover:text-cyan-400 transition-colors line-clamp-2">
               {post.metadata.title}
             </h3>
             <p className="text-sm text-gray-400 font-mono leading-relaxed line-clamp-3">
@@ -96,12 +96,12 @@ function FlipCard({ post }: { post: Post }) {
         </div>
 
         {/* BACK */}
-        <div className="absolute inset-0 border border-white/10 rounded-lg bg-[#1a1a1a] backface-hidden transform-[rotateY(180deg)] flex flex-col items-center justify-center p-6 gap-6">
+        <div className="absolute inset-0 border border-white/10 rounded-lg bg-[#1a1a1a] backface-hidden transform-[rotateY(180deg)] flex flex-col items-center justify-center p-4 sm:p-6 gap-4 sm:gap-6">
           <h3 className="text-lg font-semibold text-white font-mono text-center line-clamp-3 px-4 leading-tight">
             {post.metadata.title}
           </h3>
 
-          <div className="flex flex-col gap-3 w-full max-w-50">
+          <div className="flex flex-col gap-3 w-full max-w-full sm:max-w-50">
             {post.metadata.github && (
               <a
                 href={post.metadata.github}
@@ -143,25 +143,27 @@ export default function JournalsPage() {
   }, []);
 
   return (
-    <section className="min-h-screen py-20 px-4">
+    <section className="min-h-screen py-10 sm:py-20 px-4">
       <div className="w-full max-w-5xl mx-auto">
         {/* Headline dengan typing effect */}
         <div className="mb-2">
           <TypingHeading text="$ LS -LA /JOURNALS" inView={true} />
         </div>
-        <p className="text-gray-500 font-mono text-sm mt-1 mb-10">
+        <p className="text-gray-500 font-mono text-sm mt-1 mb-6 sm:mb-10">
           Total entries: {loading ? "..." : posts.length}
         </p>
 
-        {/* Back link */}
-        <a
-          href="/#journals"
-          className="group inline-flex items-center gap-1 font-mono text-sm text-cyan-400 hover:text-cyan-300 transition-colors mb-8"
-        >
-          <span className="text-cyan-400">root@personal-site:~/journals$</span>
-          <span className="text-gray-400 group-hover:text-white transition-colors">cd ..</span>
-          <span className="text-gray-500 group-hover:text-cyan-400 transition-colors"> →</span>
-        </a>
+        {/* Back link — desktop di atas */}
+        <div className="hidden md:block mb-8">
+          <a
+            href="/#journals"
+            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors"
+          >
+            <span className="text-cyan-400">root@personal-site:~/journals$</span>
+            <span className="text-white">cd ..</span>
+            <span className="text-cyan-400"> →</span>
+          </a>
+        </div>
 
         {/* Posts grid — 2 columns */}
         {loading ? (
@@ -194,6 +196,18 @@ export default function JournalsPage() {
             </p>
           </div>
         )}
+
+        {/* Back link — mobile di bawah */}
+        <div className="mt-8 text-center md:hidden">
+          <a
+            href="/#journals"
+            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors"
+          >
+            <span className="text-cyan-400">root@personal-site:~/journals$</span>
+            <span className="text-white">cd ..</span>
+            <span className="text-cyan-400"> →</span>
+          </a>
+        </div>
       </div>
     </section>
   );

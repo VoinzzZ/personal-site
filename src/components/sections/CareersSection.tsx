@@ -65,7 +65,7 @@ export default function CareersSection() {
     <section
       ref={sectionRef}
       id="careers"
-      className="flex flex-col items-center justify-center min-h-[75vh] py-20 px-4"
+      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4"
     >
       <div className="w-full max-w-5xl mx-auto">
         {/* Section number */}
@@ -84,19 +84,19 @@ export default function CareersSection() {
             experiences.map((exp, idx) => (
               <div
                 key={idx}
-                className="border border-white/10 rounded-lg bg-[#1a1a1a] p-6 hover:border-purple-400 transition-colors hover:shadow-[0_0_20px_-5px_#a855f7]"
+                className="border border-white/10 rounded-lg bg-[#1a1a1a] px-4 py-5 sm:p-6 hover:border-purple-400 transition-colors hover:shadow-[0_0_20px_-5px_#a855f7]"
               >
                 {/* Header */}
-                <div className="flex items-start justify-between mb-3">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3">
                   <div>
-                    <h3 className="text-lg font-semibold text-white font-mono">
+                    <h3 className="text-sm sm:text-lg font-semibold text-white font-mono">
                       {exp.role}
                     </h3>
                     <p className="text-sm text-gray-400 font-mono mt-0.5">
                       {exp.company} — {exp.location}
                     </p>
                   </div>
-                  <span className="text-xs text-gray-500 font-mono whitespace-nowrap ml-4">
+                  <span className="text-xs text-gray-500 font-mono whitespace-nowrap mt-1 sm:mt-0 sm:ml-4">
                     {exp.period}
                   </span>
                 </div>

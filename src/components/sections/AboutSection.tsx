@@ -35,7 +35,7 @@ export default function AboutSection() {
     <section
       ref={sectionRef}
       id="about"
-      className="flex flex-col items-center justify-center min-h-[75vh] py-20 px-4"
+      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4"
     >
       <div className="w-full max-w-5xl mx-auto">
         {/* Section number */}
@@ -59,7 +59,7 @@ export default function AboutSection() {
           </div>
 
           {/* Terminal body */}
-          <div className="px-6 py-6 font-space text-base leading-relaxed md:text-lg">
+          <div className="px-4 sm:px-6 py-6 font-space text-base leading-relaxed md:text-lg">
             <div className="font-mono text-sm md:text-base mb-3">
               <span className="text-cyan-400">
                 <LetterGlitch
@@ -79,7 +79,7 @@ export default function AboutSection() {
             <p className="text-purple-400 font-semibold mb-3">[PROFILE SUMMARY]</p>
 
             <ScrambledText
-              className="m-0! max-w-none! text-base md:text-lg text-gray-300 text-justify mb-6"
+              className="m-0! max-w-none! text-sm sm:text-base md:text-lg text-gray-300 text-justify mb-6"
               radius={45}
               duration={1.2}
               speed={0.3}
@@ -110,7 +110,7 @@ export default function AboutSection() {
               <span className="text-gray-400">ls -la /skills/</span>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
               {skills.map((skill) => (
                 <SkillCard
                   key={skill.name}

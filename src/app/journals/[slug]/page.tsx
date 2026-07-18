@@ -41,17 +41,19 @@ export default async function JournalDetailPage({ params }: Props) {
   };
 
   return (
-    <article className="min-h-screen py-20 px-4">
+    <article className="min-h-screen py-10 sm:py-20 px-4">
       <div className="max-w-5xl mx-auto">
-        {/* Back link */}
-        <a
-          href="/journals"
-          className="group inline-flex items-center gap-1 font-mono text-sm text-cyan-400 hover:text-cyan-300 transition-colors mb-10"
-        >
-          <span className="text-cyan-400">root@personal-site:~/journals$</span>
-          <span className="text-gray-400 group-hover:text-white transition-colors">ls</span>
-          <span className="text-gray-500 group-hover:text-cyan-400 transition-colors"> →</span>
-        </a>
+        {/* Back link — desktop di atas */}
+        <div className="hidden md:block mb-10">
+          <a
+            href="/journals"
+            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors"
+          >
+            <span className="text-cyan-400">root@personal-site:~/journals$</span>
+            <span className="text-white">ls</span>
+            <span className="text-cyan-400"> →</span>
+          </a>
+        </div>
 
         {/* Header di luar terminal */}
         <div className="mb-10">
@@ -72,7 +74,7 @@ export default async function JournalDetailPage({ params }: Props) {
               {post.metadata.tag}
             </span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white font-mono leading-tight">
+          <h1 className="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white font-mono leading-tight">
             {post.metadata.title}
           </h1>
         </div>
@@ -101,7 +103,7 @@ export default async function JournalDetailPage({ params }: Props) {
           </div>
 
           {/* Terminal body */}
-          <div className="px-6 py-6 md:px-10 md:py-8">
+          <div className="px-4 sm:px-6 md:px-10 py-6 md:py-8">
             {/* Prompt line */}
             <div className="font-mono text-sm md:text-base mb-6">
               <TerminalPrompt />
@@ -113,6 +115,18 @@ export default async function JournalDetailPage({ params }: Props) {
               <CustomMDX source={post.content} />
             </ScrambledContent>
           </div>
+        </div>
+
+        {/* Back link — mobile di bawah */}
+        <div className="mt-8 text-center md:hidden">
+          <a
+            href="/journals"
+            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors"
+          >
+            <span className="text-cyan-400">root@personal-site:~/journals$</span>
+            <span className="text-white">ls</span>
+            <span className="text-cyan-400"> →</span>
+          </a>
         </div>
       </div>
     </article>

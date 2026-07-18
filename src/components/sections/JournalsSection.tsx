@@ -68,7 +68,7 @@ export default function JournalsSection() {
     <section
       ref={sectionRef}
       id="journals"
-      className="flex flex-col items-center justify-center min-h-[75vh] py-20 px-4"
+      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4"
     >
       <div className="w-full max-w-5xl mx-auto">
         {/* Section number */}
@@ -81,7 +81,7 @@ export default function JournalsSection() {
           <TypingHeading text="$ HEAD -N 3 /JOURNALS" inView={inView} />
         </div>
 
-        <div className="mb-4 text-right">
+        <div className="mb-4 text-right hidden md:block">
           <a
             href="/journals"
             className="group font-mono text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
@@ -123,7 +123,7 @@ export default function JournalsSection() {
                 </span>
 
                 {/* Title */}
-                <h3 className="text-base font-semibold text-white font-mono mb-2 line-clamp-2">
+                <h3 className="text-sm sm:text-base font-semibold text-white font-mono mb-2 line-clamp-2">
                   {post.metadata.title}
                 </h3>
 
@@ -141,6 +141,18 @@ export default function JournalsSection() {
               </p>
             </div>
           )}
+        </div>
+
+        {/* Mobile: cd /journals/ link di bawah grid */}
+        <div className="mt-6 text-center md:hidden">
+          <a
+            href="/journals"
+            className="font-mono text-xs text-cyan-400 transition-colors"
+          >
+            <span className="text-cyan-400">root@personal-site:~/</span>
+            <span className="text-white">cd /journals/</span>
+            <span className="text-cyan-400"> →</span>
+          </a>
         </div>
       </div>
     </section>

@@ -115,7 +115,7 @@ export default function Navbar() {
               {item.sectionId ? (
                 <button
                   onClick={() => scrollToSection(item.sectionId!)}
-                  className={`text-xl font-medium transition-colors hover:text-cyan-400 cursor-pointer ${
+                  className={`text-xl font-mono font-medium transition-colors hover:text-cyan-400 cursor-pointer ${
                     activeSection === item.sectionId ? "text-cyan-400" : "text-gray-300"
                   }`}
                 >
@@ -124,7 +124,7 @@ export default function Navbar() {
               ) : (
                 <a
                   href={item.href}
-                  className="block text-xl font-medium text-gray-300 transition-colors hover:text-cyan-400"
+                  className="block text-xl font-mono font-medium text-gray-300 transition-colors hover:text-cyan-400"
                 >
                   {item.name}
                 </a>

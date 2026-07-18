@@ -37,7 +37,7 @@ export default function HeroSection() {
         systems.
       </p>
 
-      <p className="text-xs md:text-sm text-cyan-300 font-mono mb-6 sm:mb-10">
+      <p className="text-[10px] sm:text-xs md:text-sm text-cyan-300 font-mono mb-6 sm:mb-10 whitespace-nowrap">
         Surabaya City, Indonesia{" "}
         <span className="text-cyan-500">|</span> Available for Remote & Local
         WFO

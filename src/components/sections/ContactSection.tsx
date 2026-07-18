@@ -140,7 +140,7 @@ export default function ContactSection() {
         {/* Social cards */}
         <div className="flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 mt-12">
           <a
-            href="https://linkedin.com/in/antonyk"
+            href="https://www.linkedin.com/in/antony-kurniawan"
             target="_blank"
             rel="noopener noreferrer"
             className="group px-3 py-2 sm:px-4 sm:py-3 bg-[#1a1a1a] border border-white/10 rounded-lg flex items-center gap-3 text-gray-400 hover:border-cyan-400/50 hover:text-cyan-400 hover:shadow-[0_0_20px_-5px_#22d3ee] transition-all"
@@ -152,7 +152,7 @@ export default function ContactSection() {
           </a>
 
           <a
-            href="https://instagram.com/antonyk"
+            href="https://www.instagram.com/voinz_/"
             target="_blank"
             rel="noopener noreferrer"
             className="group px-3 py-2 sm:px-4 sm:py-3 bg-[#1a1a1a] border border-white/10 rounded-lg flex items-center gap-3 text-gray-400 hover:border-purple-400/50 hover:text-purple-400 hover:shadow-[0_0_20px_-5px_#a855f7] transition-all"
@@ -164,7 +164,7 @@ export default function ContactSection() {
           </a>
 
           <a
-            href="https://github.com/antonyk"
+            href="https://github.com/VoinzzZ"
             target="_blank"
             rel="noopener noreferrer"
             className="group px-3 py-2 sm:px-4 sm:py-3 bg-[#1a1a1a] border border-white/10 rounded-lg flex items-center gap-3 text-gray-400 hover:border-green-400/50 hover:text-green-400 hover:shadow-[0_0_20px_-5px_#4ade80] transition-all"

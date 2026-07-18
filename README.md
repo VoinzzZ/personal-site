@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Antony Kurniawan — Personal Portfolio
+
+> Software Engineer & Full Stack Developer specializing in clean software architectures and scalable backend systems.
+
+Built with [Next.js](https://nextjs.org) (App Router), TypeScript, and Tailwind CSS v4.
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Framework** | Next.js 16 (App Router) |
+| **Language** | TypeScript |
+| **Styling** | Tailwind CSS v4, shadcn/ui, tw-animate-css |
+| **UI / Effects** | react-icons, custom canvas-based glitch & flickering-grid effects |
+| **Fonts** | Geist (Vercel), Space Grotesk |
+| **Tooling** | pnpm, ESLint, Prettier |
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── globals.css          # Global styles, CSS variables, keyframes
+│   ├── layout.tsx           # Root layout — fonts, Navbar, FlickeringGrid background
+│   └── page.tsx             # Home page — Hero + About sections
+├── components/
+│   ├── effects/             # Visual effects
+│   │   ├── LetterGlitch.tsx
+│   │   └── TypingHeading.tsx
+│   ├── layout/              # Layout components
+│   │   └── Navbar.tsx
+│   ├── magicui/             # Third-party-style effects
+│   │   └── FlickeringGrid.tsx
+│   ├── sections/            # Page sections
+│   │   └── AboutSection.tsx
+│   └── ui/                  # Shared UI primitives
+│       └── SkillCard.tsx
+├── constants/               # Static data & site config
+│   ├── index.ts             # Barrel exports
+│   ├── navigation.ts        # Nav items array
+│   ├── site.ts              # Site metadata (name, tagline, location)
+│   └── skills.ts            # Skills list with icons
+└── lib/
+    └── utils.ts             # Utility helpers (cn, etc.)
+```
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install       # Install dependencies
+pnpm dev           # Start development server at localhost:3000
+pnpm build         # Production build
+pnpm lint          # Run ESLint
+pnpm format        # Format code with Prettier
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Author
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Antony Kurniawan** — Surabaya City, Indonesia
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Available for Remote & Local WFO opportunities.

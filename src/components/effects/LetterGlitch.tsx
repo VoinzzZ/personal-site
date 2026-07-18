@@ -40,6 +40,7 @@ export default function LetterGlitch({
 
   const scramble = () => {
     if (frameRef.current) cancelAnimationFrame(frameRef.current);
+
     iterationRef.current = 0;
     glowOffRef.current = false;
     setIsComplete(false);
@@ -48,14 +49,16 @@ export default function LetterGlitch({
     const original = textArrRef.current;
     const chars = charsRef.current;
     const len = chars.length;
-    for (let i = 0; i < len; i++) chars[i] = CHARS[Math.floor(Math.random() * CHARS.length)];
+
+    for (let i = 0; i < len; i++) {
+      chars[i] = CHARS[Math.floor(Math.random() * CHARS.length)];
+    }
 
     const maxIterations = Math.floor((len * 3 + 15) * (45 / speed));
 
     const animate = () => {
       iterationRef.current++;
       const progress = iterationRef.current / maxIterations;
-
       const typingPos = Math.floor(progress * len * 1.3);
 
       for (let i = 0; i < len; i++) {
@@ -63,16 +66,17 @@ export default function LetterGlitch({
           chars[i] = original[i];
         } else if (i === typingPos && typingPos < len) {
           chars[i] = CHARS[Math.floor(Math.random() * CHARS.length)];
-        } else {
-          if (Math.random() < 0.3) {
-            chars[i] = CHARS[Math.floor(Math.random() * CHARS.length)];
-          }
+        } else if (Math.random() < 0.3) {
+          chars[i] = CHARS[Math.floor(Math.random() * CHARS.length)];
         }
       }
 
       setDisplayText(chars.join(""));
 
-      if (!glowOffRef.current && iterationRef.current >= Math.floor(maxIterations / 2)) {
+      if (
+        !glowOffRef.current &&
+        iterationRef.current >= Math.floor(maxIterations / 2)
+      ) {
         glowOffRef.current = true;
         setGlowActive(false);
       }

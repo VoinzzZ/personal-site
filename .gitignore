@@ -32,7 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
-.claude
+.claude/plans
+.claude/worktrees
+.claude/scheduled_tasks.json
 
 # vercel
 .vercel

@@ -1,19 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { navItems } from "@/constants";
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("hero");
-
-  const navItems = [
-    { name: "Home", href: "/", sectionId: "hero" },
-    { name: "About", href: "/about", sectionId: "about" },
-    { name: "Careers", href: "/careers" },
-    { name: "Projects", href: "/projects" },
-    { name: "Contact", href: "/contact" },
-  ];
-
-  // IntersectionObserver untuk detect section yang sedang di viewport
   useEffect(() => {
     const sectionIds = navItems
       .filter((item) => item.sectionId)
@@ -48,10 +39,9 @@ export default function Navbar() {
   return (
     <nav className="w-full border-b border-white/10 bg-[#1e1e1e]/80 backdrop-blur-md sticky top-0 z-50 font-mono">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="shrink-0">
-          </div>
-          <div className="flex space-x-8">
+        <div className="flex items-center justify-between h-12">
+          <div className="shrink-0" />
+          <div className="flex items-center space-x-8">
             {navItems.map((item) => {
               const isActive = item.sectionId
                 ? activeSection === item.sectionId

@@ -1,0 +1,42 @@
+---
+title: "KasirGO — POS Mobile"
+publishedAt: "2026-03-15"
+summary: "A full-featured Point of Sale (POS) mobile application for retail stores with multi-role access, inventory management, barcode scanning, Bluetooth thermal printing, and financial reporting."
+tag: "Fullstack"
+image: "/images/tumbnail_kasirGo.jpg"
+stack: [React, Node.js, Express, MySQL, Prisma]
+---
+
+## Project Overview
+
+KasirGO is a comprehensive Point of Sale (POS) mobile application designed for small to medium retail businesses. It features a multi-role system (Owner, Admin, Cashier), real-time inventory tracking, barcode scanning, Bluetooth thermal receipt printing, and financial management with analytics dashboards.
+
+![KasirGO POS Dashboard](/images/kasirgo2.png)
+
+## Key Features
+
+- **Multi-Role System:** Owner, Admin, and Cashier with role-specific dashboards and permissions.
+- **Product Management:** Full CRUD with image upload (Cloudinary), SKU/barcode support, categories and brands.
+- **POS Transactions:** Cart-based checkout with Cash, QRIS, and Debit payment methods. Supports draft transactions.
+- **Barcode Scanning:** Single and bulk barcode scanning for fast product lookup and checkout.
+- **Bluetooth Printing:** ESC/POS thermal receipt printing via Bluetooth.
+- **Inventory Management:** Stock movements tracking, stock opname with auto-adjustment, low stock alerts.
+- **Returns Management:** Item-level returns referencing original transactions.
+- **Financial Management:** Income/expense categories, financial transactions with receipt attachments, verification workflow.
+- **Owner Analytics:** Revenue charts, top-selling products, transaction traffic, employee performance.
+- **Multi-Step Registration:** Owner and employee registration with email OTP verification and approval workflow.
+- **Push Notifications:** Low stock alerts and in-app notifications via Expo Push API.
+- **Light/Dark Theme:** Persisted theme preference across sessions.
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Mobile | React Native, Expo SDK 50, TypeScript, Expo Router |
+| Backend | Node.js, Express 5, Prisma ORM |
+| Database | MySQL |
+| Authentication | JWT (access + refresh tokens with revocation) |
+| File Storage | Cloudinary |
+| Printing | Bluetooth ESC/POS thermal printer |
+| Notifications | Expo Push Notifications |
+| Security | Helmet, CORS, Rate Limiting, Input Sanitization, Joi Validation |

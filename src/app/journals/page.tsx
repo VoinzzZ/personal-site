@@ -14,7 +14,7 @@ import {
 import { DiMsqlServer } from "react-icons/di";
 import { TbBrandPowershell } from "react-icons/tb";
 import { VscTerminalCmd } from "react-icons/vsc";
-import { SiGnubash } from "react-icons/si";
+import { SiGnubash, SiPrisma } from "react-icons/si";
 
 const stackIcons: Record<string, ReactNode> = {
   TypeScript: <SiTypescript />,
@@ -27,6 +27,7 @@ const stackIcons: Record<string, ReactNode> = {
   Bash: <SiGnubash />,
   PowerShell: <TbBrandPowershell />,
   CMD: <VscTerminalCmd />,
+  Prisma: <SiPrisma />,
 };
 
 const stackColors: Record<string, string> = {
@@ -40,6 +41,7 @@ const stackColors: Record<string, string> = {
   Bash: "#4EAA25",
   PowerShell: "#5391FE",
   CMD: "#4D4D4D",
+  Prisma: "#2D3748",
 };
 
 interface BlogMeta {

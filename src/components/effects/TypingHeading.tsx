@@ -84,11 +84,13 @@ export default function TypingHeading({ text, inView }: TypingHeadingProps) {
   }, [inView, text]);
 
   return (
-    <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-white font-mono tracking-wider min-h-[1.2em]">
+    <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-white font-mono tracking-wider leading-[1.2] min-h-[1.2em]">
       {displayText || " "}
-      {showCursor && (
-        <span className="inline-block w-2 h-[1.1em] bg-cyan-400 ml-1 align-middle animate-blink" />
-      )}
+      <span
+        className={`inline-block w-2 h-[1.1em] bg-cyan-400 ml-1 align-middle animate-blink ${
+          showCursor ? "" : "invisible"
+        }`}
+      />
     </h2>
   );
 }

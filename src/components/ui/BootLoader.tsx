@@ -1,10 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Terminal, TypingAnimation, AnimatedSpan } from "@/components/ui/terminal";
 import { FlickeringGrid } from "@/components/magicui/FlickeringGrid";
 
 export default function BootLoader({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const [done, setDone] = useState(false);
   const [fading, setFading] = useState(false);
   const readyRef = useRef(false);
@@ -53,7 +55,8 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
     return () => window.removeEventListener("keydown", handler);
   }, [finish]);
 
-  if (done) return <>{children}</>;
+  // Only show boot animation on root route; skip on all others
+  if (pathname !== "/" || done) return <>{children}</>;
 
   return (
     <div

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 import TypingHeading from "@/components/effects/TypingHeading";
 import FadeIn from "@/components/ui/FadeIn";
 
@@ -87,14 +88,14 @@ export default function JournalsSection() {
         <FadeIn visible={inView} delay={600}>
 
         <div className="mb-4 text-right hidden md:block">
-          <a
-            href="/journals"
+          <Link
+            href="/journals?viaCd=true"
             className="group font-mono text-xs text-cyan-400 hover:text-cyan-300 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/</span>
             <span className="text-gray-400 group-hover:text-white transition-colors">cd /journals/</span>
             <span className="text-gray-500 group-hover:text-cyan-400 transition-colors"> →</span>
-          </a>
+          </Link>
         </div>
 
         {/* Journal grid */}
@@ -150,14 +151,14 @@ export default function JournalsSection() {
 
         {/* Mobile: cd /journals/ link di bawah grid */}
         <div className="mt-6 text-center md:hidden">
-          <a
-            href="/journals"
+          <Link
+            href="/journals?viaCd=true"
             className="font-mono text-sm sm:text-xs text-cyan-400 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/</span>
             <span className="text-white">cd /journals/</span>
             <span className="text-cyan-400"> →</span>
-          </a>
+          </Link>
         </div>
         </FadeIn>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { navItems } from "@/constants";
 
 function formatTime(seconds: number): string {
@@ -53,6 +54,8 @@ function VisitorDetails() {
 }
 
 export default function Navbar() {
+  const router = useRouter();
+  const pathname = usePathname();
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
@@ -79,16 +82,19 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = useCallback((sectionId: string) => {
     setMenuOpen(false);
     const el = document.getElementById(sectionId);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (sectionId === "journals") {
+      // Navigate to journals page with cd animation
+      router.push("/journals?viaCd=true");
     } else {
       // Section not on current page — redirect to homepage section
       window.location.href = `/#${sectionId}`;
     }
-  };
+  }, [router]);
 
   return (
     <>

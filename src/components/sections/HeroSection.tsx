@@ -27,19 +27,19 @@ export default function HeroSection() {
 
       <p className="text-xs sm:text-lg md:text-xl text-gray-200 font-medium tracking-wide font-sans mb-4 sm:mb-8 whitespace-nowrap sm:whitespace-normal">
         Software Engineer{" "}
-        <span className="text-gray-600 mx-2 font-mono">|</span> Full Stack
+        <span className="text-gray-250 mx-2 font-mono">|</span> Full Stack
         Developer{" "}
-        <span className="text-gray-600 mx-2 font-mono">|</span> Network Engineer
+        <span className="text-gray-250 mx-2 font-mono">|</span> Network Engineer
       </p>
 
-      <p className="text-sm sm:text-base text-gray-300 font-mono mb-2">
+      <p className="text-sm sm:text-base text-gray-100 font-mono mb-2">
         Building clean software architectures and engineering scalable backend
         systems.
       </p>
 
-      <p className="text-[10px] sm:text-xs md:text-sm text-cyan-300 font-mono mb-6 sm:mb-10 whitespace-nowrap">
+      <p className="text-[10px] sm:text-xs md:text-sm text-cyan-400 font-mono mb-6 sm:mb-10 whitespace-nowrap">
         Surabaya City, Indonesia{" "}
-        <span className="text-cyan-500">|</span> Available for Remote & Local
+        <span className="text-cyan-200">|</span> Available for Remote & Local
         WFO
       </p>
 

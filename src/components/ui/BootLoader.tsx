@@ -73,9 +73,9 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
         <Terminal startOnView={false} className="w-full text-[9px] sm:text-sm h-auto! max-h-none!">
           <TypingAnimation duration={30}>systemctl start personal-site --env=production</TypingAnimation>
 
-          <AnimatedSpan><span><span className="text-purple-400">✔</span> Loading kernel modules ....... <span className="text-green-400">[OK]</span></span></AnimatedSpan>
+          <AnimatedSpan><span><span className="text-purple-400">✔</span> Loading kernel modules ...... <span className="text-green-400">[OK]</span></span></AnimatedSpan>
           <AnimatedSpan><span><span className="text-purple-400">✔</span> Initializing network stack .. <span className="text-green-400">[OK]</span></span></AnimatedSpan>
-          <AnimatedSpan><span><span className="text-purple-400">✔</span> Mounting filesystems ......... <span className="text-green-400">[OK]</span></span></AnimatedSpan>
+          <AnimatedSpan><span><span className="text-purple-400">✔</span> Mounting filesystems ........ <span className="text-green-400">[OK]</span></span></AnimatedSpan>
           <AnimatedSpan><span><span className="text-purple-400">✔</span> Starting display manager .... <span className="text-green-400">[OK]</span></span></AnimatedSpan>
 
           <TypingAnimation duration={40}>Service ready. Listening on port 3000.</TypingAnimation>

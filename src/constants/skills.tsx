@@ -20,6 +20,7 @@ import {
   SiGooglecloud,
   SiLaravel,
   SiPhp,
+  SiMysql,
 } from "react-icons/si";
 import { DiMsqlServer } from "react-icons/di";
 import { FaAws, FaWindows } from "react-icons/fa";
@@ -55,6 +56,7 @@ export const skills: Skill[] = [
   // Databases
   { name: "PostgreSQL", icon: <SiPostgresql />, iconColor: "#4169E1" },
   { name: "MongoDB", icon: <SiMongodb />, iconColor: "#47A248" },
+  { name: "MySQL", icon: <SiMysql />, iconColor: "#4479A1" },
   { name: "SQL Server", icon: <DiMsqlServer />, iconColor: "#CC2927" },
   { name: "Supabase", icon: <SiSupabase />, iconColor: "#3FCF8E" },
 

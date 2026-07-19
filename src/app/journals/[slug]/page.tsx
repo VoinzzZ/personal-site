@@ -47,7 +47,7 @@ export default async function JournalDetailPage({ params }: Props) {
         <div className="hidden md:block mb-10">
           <a
             href="/journals"
-            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors"
+            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/journals$</span>
             <span className="text-white">ls</span>
@@ -121,7 +121,7 @@ export default async function JournalDetailPage({ params }: Props) {
         <div className="mt-8 text-center md:hidden">
           <a
             href="/journals"
-            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors"
+            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/journals$</span>
             <span className="text-white">ls</span>

@@ -10,6 +10,7 @@ export interface BlogPost {
     tag: string;
     image: string;
     github?: string;
+    stack: string[];
   };
   slug: string;
   content: string;
@@ -36,6 +37,7 @@ function readMDXFile(filePath: string): BlogPost {
       tag: data.tag || "",
       image: data.image || "",
       github: data.github || "",
+      stack: data.stack || [],
     },
     slug: path.basename(filePath, path.extname(filePath)),
     content,

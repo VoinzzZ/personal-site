@@ -10,6 +10,8 @@ interface BlogMeta {
   summary: string;
   tag: string;
   image: string;
+  github?: string;
+  stack: string[];
 }
 
 interface Post {
@@ -87,7 +89,7 @@ export default function JournalsSection() {
         <div className="mb-4 text-right hidden md:block">
           <a
             href="/journals"
-            className="group font-mono text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
+            className="group font-mono text-xs text-cyan-400 hover:text-cyan-300 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/</span>
             <span className="text-gray-400 group-hover:text-white transition-colors">cd /journals/</span>
@@ -150,7 +152,7 @@ export default function JournalsSection() {
         <div className="mt-6 text-center md:hidden">
           <a
             href="/journals"
-            className="font-mono text-xs text-cyan-400 transition-colors"
+            className="font-mono text-sm sm:text-xs text-cyan-400 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/</span>
             <span className="text-white">cd /journals/</span>

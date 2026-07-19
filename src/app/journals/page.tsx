@@ -1,7 +1,46 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import TypingHeading from "@/components/effects/TypingHeading";
+import {
+  SiTypescript,
+  SiGo,
+  SiNodedotjs,
+  SiExpress,
+  SiReact,
+  SiMongodb,
+  SiMysql,
+} from "react-icons/si";
+import { DiMsqlServer } from "react-icons/di";
+import { TbBrandPowershell } from "react-icons/tb";
+import { VscTerminalCmd } from "react-icons/vsc";
+import { SiGnubash } from "react-icons/si";
+
+const stackIcons: Record<string, ReactNode> = {
+  TypeScript: <SiTypescript />,
+  Go: <SiGo />,
+  "Node.js": <SiNodedotjs />,
+  Express: <SiExpress />,
+  React: <SiReact />,
+  MongoDB: <SiMongodb />,
+  MySQL: <SiMysql />,
+  Bash: <SiGnubash />,
+  PowerShell: <TbBrandPowershell />,
+  CMD: <VscTerminalCmd />,
+};
+
+const stackColors: Record<string, string> = {
+  TypeScript: "#3178C6",
+  Go: "#00ADD8",
+  "Node.js": "#339933",
+  Express: "#FFFFFF",
+  React: "#61DAFB",
+  MongoDB: "#47A248",
+  MySQL: "#4479A1",
+  Bash: "#4EAA25",
+  PowerShell: "#5391FE",
+  CMD: "#4D4D4D",
+};
 
 interface BlogMeta {
   title: string;
@@ -10,30 +49,13 @@ interface BlogMeta {
   tag: string;
   image: string;
   github?: string;
+  stack: string[];
 }
 
 interface Post {
   metadata: BlogMeta;
   slug: string;
 }
-
-const tagLabels: Record<string, string> = {
-  "Node.js": "Node.js",
-  Go: "Go",
-  Fullstack: "Fullstack",
-};
-
-const tagColors: Record<string, string> = {
-  "Node.js": "text-cyan-400 border-cyan-500/30",
-  Go: "text-blue-400 border-blue-500/30",
-  Fullstack: "text-green-400 border-green-500/30",
-};
-
-const tagHoverColors: Record<string, string> = {
-  "Node.js": "group-hover:bg-cyan-400 group-hover:text-black",
-  Go: "group-hover:bg-blue-400 group-hover:text-black",
-  Fullstack: "group-hover:bg-green-400 group-hover:text-black",
-};
 
 const cardHoverBorders: Record<string, string> = {
   "Node.js": "hover:border-cyan-400/50 hover:shadow-[0_0_20px_-5px_#22d3ee]",
@@ -56,7 +78,7 @@ function FlipCard({ post }: { post: Post }) {
           flipped ? "transform-[rotateY(180deg)]" : ""
         }`}
       >
-        {/* FRONT */}
+        {/* FRONT — hanya judul */}
         <div
           className={`absolute inset-0 border border-white/10 rounded-lg bg-[#1a1a1a] overflow-hidden backface-hidden ${cardHoverBorders[post.metadata.tag] || "hover:border-cyan-400/50"} transition-all`}
         >
@@ -69,29 +91,25 @@ function FlipCard({ post }: { post: Post }) {
               />
             </div>
           )}
-          <div className="p-4">
-            <div className="flex items-center gap-3 mb-2">
-              <span
-                className={`inline-block text-xs font-mono px-2 py-0.5 rounded border transition-colors duration-300 ${
-                  tagColors[post.metadata.tag] || "text-gray-400 border-gray-600"
-                } ${tagHoverColors[post.metadata.tag] || ""}`}
-              >
-                {tagLabels[post.metadata.tag] || "Blog"}
-              </span>
-              <span className="text-xs text-gray-500 font-mono">
-                {new Date(post.metadata.publishedAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
-            </div>
-            <h3 className="text-sm sm:text-base font-semibold text-white font-mono mb-1 group-hover:text-cyan-400 transition-colors line-clamp-2">
+          <div className="p-4 flex flex-col justify-center min-h-0">
+            <h3 className="text-sm font-semibold text-white font-mono group-hover:text-cyan-400 transition-colors">
               {post.metadata.title}
             </h3>
-            <p className="text-sm text-gray-400 font-mono leading-relaxed line-clamp-3">
-              {post.metadata.summary}
-            </p>
+            {/* Stack icons */}
+            {post.metadata.stack && post.metadata.stack.length > 0 && (
+              <div className="flex items-center gap-3 mt-3">
+                {post.metadata.stack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="text-lg"
+                    style={{ color: stackColors[tech] || "#888" }}
+                    title={tech}
+                  >
+                    {stackIcons[tech] || null}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -157,7 +175,7 @@ export default function JournalsPage() {
         <div className="hidden md:block mb-8">
           <a
             href="/#journals"
-            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors"
+            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/journals$</span>
             <span className="text-white">cd ..</span>
@@ -201,7 +219,7 @@ export default function JournalsPage() {
         <div className="mt-8 text-center md:hidden">
           <a
             href="/#journals"
-            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors"
+            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/journals$</span>
             <span className="text-white">cd ..</span>

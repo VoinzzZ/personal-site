@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 
 interface FadeInProps {
   children: ReactNode;
@@ -17,18 +17,28 @@ interface FadeInProps {
  * driven by Tailwind utility classes so it stays in the same styling
  * layer as the rest of the project.
  *
+ * The animation fires **only once per page session** — once `visible`
+ * has been `true` at any point, the element stays fully visible
+ * regardless of subsequent `visible` prop changes.
+ *
  * Usage:
  *   <FadeIn visible={inView} delay={200}>
  *     <YourComponent />
  *   </FadeIn>
  */
 export default function FadeIn({ children, visible, delay = 0, className = "" }: FadeInProps) {
+  const hasBeenVisible = useRef(false);
+  if (visible) {
+    hasBeenVisible.current = true;
+  }
+  const show = hasBeenVisible.current;
+
   return (
     <div
       className={className}
       style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(24px)",
+        opacity: show ? 1 : 0,
+        transform: show ? "translateY(0)" : "translateY(24px)",
         transition: `opacity 0.7s ease-out ${delay}ms, transform 0.7s ease-out ${delay}ms`,
       }}
     >

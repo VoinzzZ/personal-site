@@ -5,6 +5,7 @@ import {
   SiReact,
   SiNextdotjs,
   SiPostgresql,
+  SiPrisma,
   SiDocker,
   SiNodedotjs,
   SiExpress,
@@ -51,6 +52,7 @@ export const skills: Skill[] = [
   { name: "Laravel", icon: <SiLaravel />, iconColor: "#FF2D20" },
   { name: "Node.js", icon: <SiNodedotjs />, iconColor: "#339933" },
   { name: "Tailwind CSS", icon: <SiTailwindcss />, iconColor: "#06B6D4" },
+  { name: "Prisma", icon: <SiPrisma />, iconColor: "#2D3748" },
   { name: "Ant Design", icon: <SiAntdesign />, iconColor: "#1677FF" },
 
   // Databases

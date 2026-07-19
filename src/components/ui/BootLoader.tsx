@@ -40,7 +40,7 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
 
   // Set ready after estimated total animation duration
   useEffect(() => {
-    const timer = setTimeout(() => { readyRef.current = true; }, 11000);
+    const timer = setTimeout(() => { readyRef.current = true; }, 8000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -102,7 +102,7 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
 
           <AnimatedSpan delay={400}>
             <span
-              className="inline-block cursor-pointer text-cyan-400 hover:text-cyan-300 underline underline-offset-4"
+              className="inline-block cursor-pointer text-cyan-400 hover:text-cyan-300 underline underline-offset-4 subtle-blink"
               onClick={(e) => { e.stopPropagation(); finish(); }}
             >
               {isMobile ? "Click to continue..." : "Press ENTER to continue..."}

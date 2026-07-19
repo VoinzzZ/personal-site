@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import BootLoader from "@/components/ui/BootLoader";
 import { FlickeringGrid } from "@/components/magicui/FlickeringGrid";
 import "./globals.css";
 
@@ -36,24 +37,26 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased scroll-smooth`}
+      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased scroll-smooth dark`}
     >
       <body className="min-h-full bg-[#121212] text-white antialiased relative">
-        <FlickeringGrid
-          className="fixed inset-0 z-0 mask-[radial-gradient(1000px_circle_at_center,white,transparent)]"
-          squareSize={8}
-          gridGap={6}
-          color="#FFFFFF"
-          maxOpacity={0.3}
-          flickerChance={0.1}
-        />
-        <Navbar />
-        <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          {children}
-        </main>
-        <Footer />
-        <Analytics />
-        <SpeedInsights />
+        <BootLoader>
+          <FlickeringGrid
+            className="fixed inset-0 z-0 mask-[radial-gradient(1000px_circle_at_center,white,transparent)]"
+            squareSize={8}
+            gridGap={6}
+            color="#FFFFFF"
+            maxOpacity={0.3}
+            flickerChance={0.1}
+          />
+          <Navbar />
+          <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            {children}
+          </main>
+          <Footer />
+          <Analytics />
+          <SpeedInsights />
+        </BootLoader>
       </body>
     </html>
   );

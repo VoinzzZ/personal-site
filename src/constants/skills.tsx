@@ -66,7 +66,7 @@ export const skills: Skill[] = [
   { name: "Postman", icon: <SiPostman />, iconColor: "#FF6C37" },
   { name: "AWS", icon: <FaAws />, iconColor: "#FF9900" },
   { name: "GCP", icon: <SiGooglecloud />, iconColor: "#4285F4" },
-  { name: "Vercel", icon: <IoLogoVercel />, iconColor: "white" },
+  { name: "Vercel", icon: <IoLogoVercel />, iconColor: "#000000" },
 
   // OS & Terminal
   { name: "Linux", icon: <SiLinux />, iconColor: "#FCC624" },

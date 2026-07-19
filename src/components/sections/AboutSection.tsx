@@ -5,6 +5,7 @@ import TypingHeading from "@/components/effects/TypingHeading";
 import LetterGlitch from "@/components/effects/LetterGlitch";
 import ScrambledText from "@/components/effects/ScrambledText";
 import SkillCard from "@/components/ui/SkillCard";
+import FadeIn from "@/components/ui/FadeIn";
 import { skills } from "@/constants";
 
 export default function AboutSection() {
@@ -35,7 +36,7 @@ export default function AboutSection() {
     <section
       ref={sectionRef}
       id="about"
-      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4"
+      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4 scroll-mt-20"
     >
       <div className="w-full max-w-5xl mx-auto">
         {/* Section number */}
@@ -49,6 +50,7 @@ export default function AboutSection() {
         </div>
 
         {/* macOS-style terminal window */}
+        <FadeIn visible={inView} delay={600}>
         <div className="border border-white/10 rounded-lg overflow-hidden bg-[#1a1a1a]">
           {/* Title bar */}
           <div className="flex items-center gap-1.5 px-4 py-3 bg-[#252525] border-b border-white/10">
@@ -122,7 +124,8 @@ export default function AboutSection() {
             </div>
           </div>
         </div>
-      </div>
+      </FadeIn>
+    </div>
     </section>
   );
 }

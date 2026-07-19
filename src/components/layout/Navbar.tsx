@@ -3,6 +3,55 @@
 import { useEffect, useState } from "react";
 import { navItems } from "@/constants";
 
+function formatTime(seconds: number): string {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  return [h, m, s].map((v) => String(v).padStart(2, "0")).join(":");
+}
+
+function VisitorDetails() {
+  const [ip, setIp] = useState<string>("—");
+  const [uptime, setUptime] = useState(0);
+
+  useEffect(() => {
+    fetch("https://api.ipify.org?format=json")
+      .then((r) => r.json())
+      .then((d) => setIp(d.ip))
+      .catch(() => setIp("—"));
+  }, []);
+
+  useEffect(() => {
+    const start = Date.now();
+    const id = setInterval(() => {
+      setUptime(Math.floor((Date.now() - start) / 1000));
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div className="hidden md:flex items-center gap-4 leading-tight font-mono select-none">
+      <span className="text-sm font-medium text-cyan-400 tracking-wide">Visitors Detail</span>
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-gray-500">Uptime</span>
+          <span className="text-white font-medium">{formatTime(uptime)}</span>
+        </div>
+        <div className="w-px h-5 bg-white/10" />
+        <div className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-gray-500">IP</span>
+          <span className="text-purple-400 font-medium">{ip}</span>
+        </div>
+        <div className="w-px h-5 bg-white/10" />
+        <div className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-gray-500">Status</span>
+          <span className="text-green-400 font-medium animate-pulse">ONLINE</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -43,10 +92,13 @@ export default function Navbar() {
 
   return (
     <>
-    <nav className="w-full border-b border-white/10 bg-[#1e1e1e]/80 backdrop-blur-md sticky top-0 z-50 font-mono">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-12 md:h-14">
-          <div className="shrink-0" />
+    <nav className="w-full border-b border-white/10 bg-[#1e1e1e]/80 backdrop-blur-md sticky top-0 z-50 font-mono text-xs md:text-sm">
+      <div className="w-full">
+        <div className="flex items-center justify-between h-12 md:h-14 px-4 sm:px-6 lg:px-8">
+          <div className="shrink-0">
+            <VisitorDetails />
+            <span className="md:hidden text-sm font-medium text-cyan-400 tracking-wide select-none">VISITOR</span>
+          </div>
 
           {/* Desktop nav items */}
           <div className="hidden md:flex items-center space-x-8">
@@ -60,8 +112,8 @@ export default function Navbar() {
                   <button
                     key={item.name}
                     onClick={() => scrollToSection(item.sectionId!)}
-                    className={`text-sm font-medium transition-colors hover:text-cyan-400 cursor-pointer ${
-                      isActive ? "text-cyan-400" : "text-gray-400"
+                    className={`text-sm font-normal transition-all hover:text-cyan-400 cursor-pointer ${
+                      isActive ? "text-cyan-400 drop-shadow-[0_0_6px_#22d3ee]" : "text-gray-400"
                     }`}
                   >
                     {item.name}
@@ -72,7 +124,7 @@ export default function Navbar() {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-sm font-medium text-gray-400 transition-colors hover:text-cyan-400"
+                  className="text-sm font-normal text-gray-400 transition-all hover:text-cyan-400 hover:drop-shadow-[0_0_6px_#22d3ee]"
                 >
                   {item.name}
                 </a>

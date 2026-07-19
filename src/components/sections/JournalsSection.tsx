@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import TypingHeading from "@/components/effects/TypingHeading";
+import FadeIn from "@/components/ui/FadeIn";
 
 interface BlogMeta {
   title: string;
@@ -68,7 +69,7 @@ export default function JournalsSection() {
     <section
       ref={sectionRef}
       id="journals"
-      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4"
+      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4 scroll-mt-20"
     >
       <div className="w-full max-w-5xl mx-auto">
         {/* Section number */}
@@ -80,6 +81,8 @@ export default function JournalsSection() {
         <div className="mb-6 text-left">
           <TypingHeading text="$ HEAD -N 3 /JOURNALS" inView={inView} />
         </div>
+
+        <FadeIn visible={inView} delay={600}>
 
         <div className="mb-4 text-right hidden md:block">
           <a
@@ -154,6 +157,7 @@ export default function JournalsSection() {
             <span className="text-cyan-400"> →</span>
           </a>
         </div>
+        </FadeIn>
       </div>
     </section>
   );

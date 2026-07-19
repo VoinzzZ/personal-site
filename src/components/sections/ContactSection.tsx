@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import LetterGlitch from "@/components/effects/LetterGlitch";
 import TypingHeading from "@/components/effects/TypingHeading";
+import FadeIn from "@/components/ui/FadeIn";
 
 export default function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -42,7 +43,7 @@ export default function ContactSection() {
     <section
       ref={sectionRef}
       id="contact"
-      className="flex flex-col items-center justify-center min-h-[40vh] sm:min-h-[50vh] py-10 sm:py-20 px-4"
+      className="flex flex-col items-center justify-center min-h-[40vh] sm:min-h-[50vh] py-10 sm:py-20 px-4 scroll-mt-20"
     >
       <div className="w-full max-w-5xl mx-auto relative">
         {/* Section number */}
@@ -56,6 +57,7 @@ export default function ContactSection() {
         </div>
 
         {/* Availability message */}
+        <FadeIn visible={inView} delay={600}>
         <p className="text-gray-100 font-mono text-sm sm:text-base md:text-lg leading-relaxed mb-8 sm:mb-10 text-center max-w-3xl mx-auto px-2 sm:px-0">
           Searching for roles in Software Engineering, Backend Development, or
           Full-Stack Architecture. Available for Remote & Local WFO.
@@ -175,7 +177,8 @@ export default function ContactSection() {
             <span className="text-sm font-mono font-medium">GitHub</span>
           </a>
         </div>
-      </div>
+      </FadeIn>
+    </div>
     </section>
   );
 }

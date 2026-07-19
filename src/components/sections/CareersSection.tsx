@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import TypingHeading from "@/components/effects/TypingHeading";
+import FadeIn from "@/components/ui/FadeIn";
 
 interface Experience {
   role: string;
@@ -65,7 +66,7 @@ export default function CareersSection() {
     <section
       ref={sectionRef}
       id="careers"
-      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4"
+      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4 scroll-mt-20"
     >
       <div className="w-full max-w-5xl mx-auto">
         {/* Section number */}
@@ -78,12 +79,12 @@ export default function CareersSection() {
           <TypingHeading text="LS -LA /CAREERS/EXPERIENCE" inView={inView} />
         </div>
 
-        {/* Career cards */}
+        {/* Career cards — staggered fade per card */}
         <div className="space-y-4">
           {experiences.length > 0 ? (
             experiences.map((exp, idx) => (
+              <FadeIn key={idx} visible={inView} delay={600 + idx * 200}>
               <div
-                key={idx}
                 className="border border-white/10 rounded-lg bg-[#1a1a1a] px-4 py-5 sm:p-6 hover:border-purple-400 transition-colors hover:shadow-[0_0_20px_-5px_#a855f7]"
               >
                 {/* Header */}
@@ -114,8 +115,10 @@ export default function CareersSection() {
                   ))}
                 </ul>
               </div>
+              </FadeIn>
             ))
           ) : (
+            <FadeIn visible={inView} delay={600}>
             <div className="border border-dashed border-gray-700 rounded-lg p-12 text-center">
               <p className="text-gray-500 font-mono text-base mb-4">
                 <span className="text-yellow-500">$</span> No experiences found
@@ -128,6 +131,7 @@ export default function CareersSection() {
                 </span>
               </div>
             </div>
+            </FadeIn>
           )}
         </div>
       </div>

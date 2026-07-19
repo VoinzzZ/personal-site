@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { Metadata } from "next";
 import { findPostBySlug, getPosts } from "@/lib/blog";
 import { CustomMDX } from "@/components/shared/MdxRenderer";
@@ -45,14 +46,14 @@ export default async function JournalDetailPage({ params }: Props) {
       <div className="max-w-5xl mx-auto">
         {/* Back link — desktop di atas */}
         <div className="hidden md:block mb-10">
-          <a
+          <Link
             href="/journals"
             className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/journals$</span>
             <span className="text-white">ls</span>
             <span className="text-cyan-400"> →</span>
-          </a>
+          </Link>
         </div>
 
         {/* Header di luar terminal */}
@@ -117,16 +118,28 @@ export default async function JournalDetailPage({ params }: Props) {
           </div>
         </div>
 
-        {/* Back link — mobile di bawah */}
-        <div className="mt-8 text-center md:hidden">
-          <a
+        {/* Back link — desktop di bawah terminal */}
+        <div className="hidden md:flex justify-end mt-8">
+          <Link
             href="/journals"
             className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/journals$</span>
             <span className="text-white">ls</span>
             <span className="text-cyan-400"> →</span>
-          </a>
+          </Link>
+        </div>
+
+        {/* Back link — mobile di bawah */}
+        <div className="mt-8 text-center md:hidden">
+          <Link
+            href="/journals"
+            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
+          >
+            <span className="text-cyan-400">root@personal-site:~/journals$</span>
+            <span className="text-white">ls</span>
+            <span className="text-cyan-400"> →</span>
+          </Link>
         </div>
       </div>
     </article>

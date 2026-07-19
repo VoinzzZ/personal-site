@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, type ReactNode } from "react";
+import Link from "next/link";
 import TypingHeading from "@/components/effects/TypingHeading";
 import {
   SiTypescript,
@@ -142,12 +143,12 @@ function FlipCard({ post }: { post: Post }) {
                 <span>private</span>
               </span>
             )}
-            <a
+            <Link
               href={`/journals/${post.slug}`}
-              className="w-full py-2.5 px-4 bg-transparent border border-cyan-400 text-cyan-300 font-mono text-sm font-semibold text-center hover:bg-cyan-400 hover:text-black transition-all duration-300 rounded-none"
+              className="w-full py-2.5 px-4 bg-transparent border border-cyan-400 text-cyan-300 font-mono text-sm font-semibold text-center hover:bg-cyan-400 hover:text-black transition-all duration-300 rounded-none block"
             >
               $ cat README.md
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -182,14 +183,14 @@ export default function JournalsPage() {
 
         {/* Back link — desktop di atas */}
         <div className="hidden md:block mb-8">
-          <a
+          <Link
             href="/#journals"
             className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/journals$</span>
             <span className="text-white">cd ..</span>
             <span className="text-cyan-400"> →</span>
-          </a>
+          </Link>
         </div>
 
         {/* Posts grid — 2 columns */}
@@ -224,16 +225,28 @@ export default function JournalsPage() {
           </div>
         )}
 
-        {/* Back link — mobile di bawah */}
-        <div className="mt-8 text-center md:hidden">
-          <a
+        {/* Back link — desktop di bawah */}
+        <div className="hidden md:flex justify-end mt-8">
+          <Link
             href="/#journals"
             className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
           >
             <span className="text-cyan-400">root@personal-site:~/journals$</span>
             <span className="text-white">cd ..</span>
             <span className="text-cyan-400"> →</span>
-          </a>
+          </Link>
+        </div>
+
+        {/* Back link — mobile di bawah */}
+        <div className="mt-8 text-center md:hidden">
+          <Link
+            href="/#journals"
+            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
+          >
+            <span className="text-cyan-400">root@personal-site:~/journals$</span>
+            <span className="text-white">cd ..</span>
+            <span className="text-cyan-400"> →</span>
+          </Link>
         </div>
       </div>
     </section>

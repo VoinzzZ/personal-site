@@ -82,17 +82,35 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, []);
 
+  // Track pending scroll after client-side nav to home
+  const [pendingSection, setPendingSection] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (pendingSection && pathname === "/") {
+      const el = document.getElementById(pendingSection);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        setPendingSection(null);
+      } else {
+        // Retry once if element not yet rendered
+        const id = setTimeout(() => {
+          document.getElementById(pendingSection)?.scrollIntoView({ behavior: "smooth", block: "start" });
+          setPendingSection(null);
+        }, 300);
+        return () => clearTimeout(id);
+      }
+    }
+  }, [pathname, pendingSection]);
+
   const scrollToSection = useCallback((sectionId: string) => {
     setMenuOpen(false);
     const el = document.getElementById(sectionId);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else if (sectionId === "journals") {
-      // Navigate to journals page with cd animation
-      router.push("/journals?viaCd=true");
     } else {
-      // Section not on current page — redirect to homepage section
-      window.location.href = `/#${sectionId}`;
+      // Section not on current page — navigate client-side to home, scroll after route change
+      setPendingSection(sectionId);
+      router.push("/");
     }
   }, [router]);
 

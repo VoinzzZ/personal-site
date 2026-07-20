@@ -188,7 +188,7 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
               <LazyAnimatedSpan>
                 <span>
                   <span className="text-cyan-400">root@personal-site:~$</span>{" "}
-                  <span className="text-green-400">Welcome visitors to</span>
+                  <span className="text-green-400">Welcome visitor to</span>
                 </span>
               </LazyAnimatedSpan>
               <LazyAnimatedSpan>

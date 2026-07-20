@@ -19,6 +19,7 @@ export default function HeroSection() {
         text="ANTONY KURNIAWAN"
         as="h1"
         trigger="mount"
+        delayStart={2500}
         speed={20}
         repeatInterval={7000}
         onComplete={() => setNameDone(true)}

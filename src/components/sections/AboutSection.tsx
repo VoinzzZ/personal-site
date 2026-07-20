@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import TypingHeading from "@/components/effects/TypingHeading";
 import LetterGlitch from "@/components/effects/LetterGlitch";
-import ScrambledText from "@/components/effects/ScrambledText";
+import { LazyScrambledText } from "@/components/effects/DynamicEffects";
 import SkillCard from "@/components/ui/SkillCard";
 import FadeIn from "@/components/ui/FadeIn";
 import { skills } from "@/constants";
@@ -61,7 +61,7 @@ export default function AboutSection() {
           </div>
 
           {/* Terminal body */}
-          <div className="px-4 sm:px-6 py-6 font-space text-base leading-relaxed md:text-lg">
+          <div className="px-4 sm:px-6 py-6 font-sans text-base leading-relaxed md:text-lg">
             <div className="font-mono text-sm md:text-base mb-3">
               <span className="text-cyan-400">
                 <LetterGlitch
@@ -80,7 +80,7 @@ export default function AboutSection() {
 
             <p className="text-purple-400 font-semibold mb-3">[PROFILE SUMMARY]</p>
 
-            <ScrambledText
+            <LazyScrambledText
               className="m-0! max-w-none! text-sm sm:text-base md:text-lg text-gray-300 text-justify mb-6"
               radius={45}
               duration={1.2}
@@ -92,7 +92,7 @@ export default function AboutSection() {
               business logic. Possesses a strong curiosity for hardware optimization, cloud infrastructure,
               and low-level mechanics. Driven by continuous learning and a structured problem-solving approach
               to engineering reliable digital solutions.
-            </ScrambledText>
+            </LazyScrambledText>
 
             <div className="h-5" />
 

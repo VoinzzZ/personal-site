@@ -50,7 +50,8 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
 
   const setupCanvas = useCallback(
     (canvas: HTMLCanvasElement, width: number, height: number) => {
-      const dpr = window.devicePixelRatio || 1
+      // Cap DPR to reduce canvas fill cost on high-DPI screens (main-thread rAF)
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
       canvas.width = width * dpr
       canvas.height = height * dpr
       canvas.style.width = `${width}px`

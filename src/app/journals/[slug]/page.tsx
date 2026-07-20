@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
 import { findPostBySlug, getPosts } from "@/lib/blog";
 import { CustomMDX } from "@/components/shared/MdxRenderer";
-import ScrambledContent from "@/components/shared/ScrambledContent";
+import { LazyScrambledContent } from "@/components/effects/DynamicEffects";
 import TerminalPrompt from "./TerminalPrompt";
 
 interface Props {
@@ -80,13 +81,16 @@ export default async function JournalDetailPage({ params }: Props) {
           </h1>
         </div>
 
-        {/* Featured image di luar terminal */}
+        {/* Featured image di luar terminal — LCP candidate */}
         {post.metadata.image && (
-          <div className="mb-10">
-            <img
+          <div className="mb-10 relative w-full aspect-video overflow-hidden rounded-lg border border-white/10">
+            <Image
               src={post.metadata.image}
               alt={post.metadata.title}
-              className="w-full rounded-lg border border-white/10"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 896px"
+              className="object-cover"
             />
           </div>
         )}
@@ -112,9 +116,9 @@ export default async function JournalDetailPage({ params }: Props) {
             </div>
 
             {/* Content */}
-            <ScrambledContent>
+            <LazyScrambledContent>
               <CustomMDX source={post.content} />
-            </ScrambledContent>
+            </LazyScrambledContent>
           </div>
         </div>
 

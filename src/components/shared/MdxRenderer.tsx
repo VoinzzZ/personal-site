@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { MDXRemoteProps } from "next-mdx-remote/rsc";
 
@@ -93,15 +94,34 @@ const components = {
       {children}
     </td>
   ),
-  img: ({ alt, src, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    <img
-      alt={alt || ""}
-      src={src}
-      className="w-full rounded-lg border border-white/10 my-6"
-      loading="lazy"
-      {...props}
-    />
-  ),
+  img: ({ alt, src }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+    if (!src || typeof src !== "string") return null;
+
+    // Local images: use next/image for format negotiation + sizing
+    if (src.startsWith("/")) {
+      return (
+        <Image
+          src={src}
+          alt={alt || ""}
+          width={1600}
+          height={900}
+          sizes="(max-width: 768px) 100vw, 896px"
+          className="w-full h-auto rounded-lg border border-white/10 my-6"
+        />
+      );
+    }
+
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        alt={alt || ""}
+        src={src}
+        className="w-full rounded-lg border border-white/10 my-6"
+        loading="lazy"
+        decoding="async"
+      />
+    );
+  },
   strong: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <strong className="text-white font-semibold" {...props}>
       {children}

@@ -14,7 +14,7 @@ interface Experience {
 
 const experiences: Experience[] = [
   {
-    role: "Applied Bachelor — Telecommunications Engineering (PJJ)",
+    role: "Applied Bachelor — Telecommunications Engineering",
     company: "Politeknik Elektronika Negeri Surabaya (PENS)",
     location: "Surabaya, Indonesia",
     period: "2026 — Present",
@@ -23,6 +23,7 @@ const experiences: Experience[] = [
       "Exploring routing & switching mechanics, TCP/IP networking, and communication protocols",
       "Understanding fiber optics technology, optical transport networks, and wireless transmission",
       "Combining telecommunications engineering with cloud architecture and software design",
+      "Pursuing degree via Distance Learning (PJJ) program, allowing flexible integration with engineering projects",
     ],
   },
   {

@@ -59,8 +59,9 @@ export default function ContactSection() {
         {/* Availability message */}
         <FadeIn visible={inView} delay={600}>
         <p className="text-gray-100 font-mono text-sm sm:text-base md:text-lg leading-relaxed mb-8 sm:mb-10 text-center max-w-3xl mx-auto px-2 sm:px-0">
-          Searching for roles in Software Engineering, Backend Development, or
-          Full-Stack Architecture. Available for Remote & Local WFO.
+        Open for roles in Software & Backend Engineering, Network & Telecom Systems,
+        or Cloud Infrastructure.
+        Available for Remote, Hybrid, and Local WFO opportunities.
         </p>
 
         {/* Action buttons — inverted triangle layout */}

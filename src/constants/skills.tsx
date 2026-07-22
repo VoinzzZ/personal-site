@@ -47,12 +47,12 @@ export const skills: Skill[] = [
   // Frameworks & Libraries
   { name: "React", icon: <SiReact />, iconColor: "#61DAFB" },
   { name: "React Native", icon: <SiReact />, iconColor: "#61DAFB" },
-  { name: "Next.js", icon: <SiNextdotjs />, iconColor: "white" },
-  { name: "Express.js", icon: <SiExpress />, iconColor: "white" },
+  { name: "Next.js", icon: <SiNextdotjs />, iconColor: "#000000" },
+  { name: "Express.js", icon: <SiExpress />, iconColor: "#000000" },
   { name: "Laravel", icon: <SiLaravel />, iconColor: "#FF2D20" },
   { name: "Node.js", icon: <SiNodedotjs />, iconColor: "#339933" },
   { name: "Tailwind CSS", icon: <SiTailwindcss />, iconColor: "#06B6D4" },
-  { name: "Prisma", icon: <SiPrisma />, iconColor: "#2D3748" },
+  { name: "Prisma", icon: <SiPrisma />, iconColor: "#000000" },
   { name: "Ant Design", icon: <SiAntdesign />, iconColor: "#1677FF" },
 
   // Databases
@@ -71,7 +71,7 @@ export const skills: Skill[] = [
   { name: "Vercel", icon: <IoLogoVercel />, iconColor: "#000000" },
 
   // OS & Terminal
-  { name: "Linux", icon: <SiLinux />, iconColor: "#FCC624" },
+  { name: "Linux", icon: <SiLinux />, iconColor: "#000000" },
   { name: "Windows", icon: <FaWindows />, iconColor: "#00ADEF" },
   { name: "PowerShell", icon: <TbBrandPowershell />, iconColor: "#5391FE" },
   { name: "Bash", icon: <SiGnubash />, iconColor: "#4EAA25" },

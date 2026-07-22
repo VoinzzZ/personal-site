@@ -34,7 +34,7 @@ export default function HeroSection() {
       </p>
 
       <p className="text-sm sm:text-base text-gray-100 font-mono mb-2">
-        Building clean software architectures and engineering scalable systems
+        Engineering clean software architectures and high-availability network systems.
       </p>
 
       <p className="text-[10px] sm:text-xs md:text-sm text-cyan-400 font-mono mb-6 sm:mb-10 whitespace-nowrap">

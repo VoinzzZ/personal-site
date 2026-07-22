@@ -110,7 +110,7 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
     <>
       {!done && (
         <div
-          className={`fixed inset-0 z-[60] flex items-center justify-center bg-[#121212] transition-opacity duration-500 ${fading ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+          className={`fixed inset-0 z-60 flex items-center justify-center bg-[#121212] transition-opacity duration-500 ${fading ? "opacity-0 pointer-events-none" : "opacity-100"}`}
           onClick={isMobile && readyRef.current ? finish : undefined}
           aria-hidden={fading}
         >

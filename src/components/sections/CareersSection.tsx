@@ -14,15 +14,15 @@ interface Experience {
 
 const experiences: Experience[] = [
   {
-    role: "Student — Software Engineering",
-    company: "SMKN 2 Surabaya",
+    role: "Applied Bachelor — Telecommunications Engineering (PJJ)",
+    company: "Politeknik Elektronika Negeri Surabaya (PENS)",
     location: "Surabaya, Indonesia",
-    period: "2023 — 2026",
+    period: "2026 — Present",
     highlights: [
-      "Studied programming fundamentals and algorithmic problem-solving",
-      "Learned database design, normalization, and query optimization",
-      "Gained foundational knowledge in computer networking and server administration",
-      "Built full-stack web applications through hands-on projects",
+      "Studying telecommunications infrastructure, network engineering, and data communication systems",
+      "Exploring routing & switching mechanics, TCP/IP networking, and communication protocols",
+      "Understanding fiber optics technology, optical transport networks, and wireless transmission",
+      "Combining telecommunications engineering with cloud architecture and software design",
     ],
   },
   {
@@ -34,6 +34,18 @@ const experiences: Experience[] = [
       "Contributed to building a PLC (Programmable Logic Controller) web monitoring application for PT Pupuk Utilitas Indonesia (PIU)",
       "Developed an early warning system feature integrated with WhatsApp notifications to deliver real-time error code handling guides",
       "Implemented the system using React.js, Node.js/Express.js, and SQL Server",
+    ],
+  },
+  {
+    role: "High School Diploma — Software Engineering",
+    company: "SMK Negeri 2 Surabaya",
+    location: "Surabaya, Indonesia",
+    period: "2023 — 2026",
+    highlights: [
+      "Studied programming fundamentals and algorithmic problem-solving",
+      "Learned database design, normalization, and query optimization",
+      "Built a strong foundation in computer fundamentals, operating systems, and computer hardware",
+      "Built full-stack web applications through hands-on projects",
     ],
   },
 ];

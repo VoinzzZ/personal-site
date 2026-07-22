@@ -62,10 +62,11 @@ export default function FlipCard({
   priority?: boolean;
 }) {
   const [flipped, setFlipped] = useState(false);
+  const isShortTitle = post.metadata.title.length < 35;
 
   return (
     <div
-      className="group relative h-80 sm:h-95 perspective-[1000px]"
+      className="group relative h-84 sm:h-96 perspective-[1000px]"
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
     >
@@ -76,10 +77,10 @@ export default function FlipCard({
       >
         {/* FRONT */}
         <div
-          className={`absolute inset-0 border border-white/10 rounded-lg bg-[#1a1a1a] overflow-hidden backface-hidden ${cardHoverBorders[post.metadata.tag] || "hover:border-cyan-400/50"} transition-all`}
+          className={`absolute inset-0 border border-white/10 rounded-lg bg-[#1a1a1a] overflow-hidden backface-hidden ${cardHoverBorders[post.metadata.tag] || "hover:border-cyan-400/50"} transition-all flex flex-col`}
         >
           {post.metadata.image && (
-            <div className="relative w-full aspect-video overflow-hidden border-b border-white/5">
+            <div className="relative w-full aspect-video overflow-hidden border-b border-white/5 shrink-0">
               <Image
                 src={post.metadata.image}
                 alt={post.metadata.title}
@@ -90,12 +91,14 @@ export default function FlipCard({
               />
             </div>
           )}
-          <div className="p-4 flex flex-col justify-center min-h-0">
-            <h3 className="text-sm font-semibold text-white font-mono group-hover:text-cyan-400 transition-colors">
-              {post.metadata.title}
-            </h3>
+          <div className="p-4 flex flex-col justify-between flex-1 min-h-0 relative">
+            <div>
+              <h3 className={`font-semibold text-white font-mono group-hover:text-cyan-400 transition-colors line-clamp-3 ${isShortTitle ? "text-base sm:text-lg leading-snug" : "text-sm sm:text-base leading-snug"}`}>
+                {post.metadata.title}
+              </h3>
+            </div>
             {post.metadata.stack && post.metadata.stack.length > 0 && (
-              <div className="flex items-center gap-3 mt-3">
+              <div className="absolute bottom-4 left-4 flex items-center gap-3">
                 {post.metadata.stack.map((tech) => (
                   <span
                     key={tech}
@@ -108,6 +111,11 @@ export default function FlipCard({
                 ))}
               </div>
             )}
+            <div className="absolute bottom-4 right-4">
+              <span className="text-xs text-gray-600 font-mono">
+                {post.metadata.publishedAt}
+              </span>
+            </div>
           </div>
         </div>
 

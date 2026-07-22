@@ -87,11 +87,11 @@ export default function AboutSection() {
               speed={0.3}
               scrambleChars=""
             >
-              A highly motivated Software Engineering graduate focused on full-stack development and system
-              architecture. Adept at navigating cross-platform environments and untangling complex backend
-              business logic. Possesses a strong curiosity for hardware optimization, cloud infrastructure,
-              and low-level mechanics. Driven by continuous learning and a structured problem-solving approach
-              to engineering reliable digital solutions.
+              A system-minded Network & Software Engineer currently pursuing an Applied Bachelor's in Telecommunications
+              Engineering. Focused on bridging network infrastructure, telecom protocols, and full-stack software
+              architecture. Adept at navigating cross-platform environments, untangling complex backend logic, and
+              optimizing low-level systems. Driven by a structured problem-solving approach to engineer resilient, 
+              high-availability digital infrastructure.
             </LazyScrambledText>
 
             <div className="h-5" />

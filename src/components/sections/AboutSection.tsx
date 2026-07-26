@@ -87,7 +87,7 @@ export default function AboutSection() {
               speed={0.3}
               scrambleChars=""
             >
-              A system-minded Network & Software Engineer currently pursuing an Applied Bachelor's in Telecommunications
+              A system-minded Network and Software Engineer currently pursuing an Applied Bachelor's in Telecommunications
               Engineering. Focused on bridging network infrastructure, telecom protocols, and full-stack software
               architecture. Adept at navigating cross-platform environments, untangling complex backend logic, and
               optimizing low-level systems. Driven by a structured problem-solving approach to engineer resilient, 

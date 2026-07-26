@@ -93,9 +93,26 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
   // Lock body scroll while boot overlay is visible
   useEffect(() => {
     if (skipBoot || done) return;
+    const scrollY = window.scrollY;
+
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
+
+    // Prevent touch-based scrolling on mobile
+    const preventTouch = (e: TouchEvent) => e.preventDefault();
+    document.addEventListener("touchmove", preventTouch, { passive: false });
+
     return () => {
       document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.removeEventListener("touchmove", preventTouch);
+
+      // Restore scroll position after unlock
+      window.scrollTo(0, scrollY);
     };
   }, [skipBoot, done]);
 

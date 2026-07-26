@@ -68,7 +68,7 @@ export default function JournalsSection({ posts }: { posts: Post[] }) {
         </div>
 
         <div className="mb-6 text-left">
-          <TypingHeading text="$ HEAD -N 3 /JOURNALS" inView={inView} />
+          <TypingHeading text="HEAD -N 3 /JOURNALS" inView={inView} />
         </div>
 
         <FadeIn visible={inView} delay={600}>

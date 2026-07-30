@@ -73,13 +73,7 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
     setTimeout(() => setDone(true), 500);
   }, []);
 
-  useEffect(() => {
-    if (skipBoot || done) return;
-    const timer = setTimeout(() => {
-      readyRef.current = true;
-    }, 8000);
-    return () => clearTimeout(timer);
-  }, [skipBoot, done]);
+  // readyRef not set by timer — it's set by the "Press ENTER" span's onShow below
 
   useEffect(() => {
     if (skipBoot || done) return;
@@ -144,81 +138,81 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
               startOnView={false}
               className="w-full text-[9px] sm:text-sm h-auto! max-h-none!"
             >
-              <LazyTypingAnimation duration={30}>
+              <LazyTypingAnimation duration={3}>
                 systemctl start personal-site --env=production
               </LazyTypingAnimation>
 
-              <LazyAnimatedSpan>
+              <LazyAnimatedSpan duration={0.05}>
                 <span>
                   <span className="text-purple-400">✔</span> Loading kernel modules
                   ...... <span className="text-green-400">[OK]</span>
                 </span>
               </LazyAnimatedSpan>
-              <LazyAnimatedSpan>
+              <LazyAnimatedSpan duration={0.05}>
                 <span>
                   <span className="text-purple-400">✔</span> Initializing network
                   stack .. <span className="text-green-400">[OK]</span>
                 </span>
               </LazyAnimatedSpan>
-              <LazyAnimatedSpan>
+              <LazyAnimatedSpan duration={0.08}>
                 <span>
                   <span className="text-purple-400">✔</span> Mounting filesystems
                   ........ <span className="text-green-400">[OK]</span>
                 </span>
               </LazyAnimatedSpan>
-              <LazyAnimatedSpan>
+              <LazyAnimatedSpan duration={0.08}>
                 <span>
                   <span className="text-purple-400">✔</span> Starting display manager
                   .... <span className="text-green-400">[OK]</span>
                 </span>
               </LazyAnimatedSpan>
 
-              <LazyTypingAnimation duration={40}>
+              <LazyTypingAnimation duration={6}>
                 Service ready. Listening on port 3000.
               </LazyTypingAnimation>
 
-              <LazyAnimatedSpan>
+              <LazyAnimatedSpan duration={0.1}>
                 <span>
                   <span className="text-purple-400">✔</span> Fetching visitor IP
                   ......... [
                   <span className="text-purple-400">{visitorData.ip}</span>]
                 </span>
               </LazyAnimatedSpan>
-              <LazyAnimatedSpan>
+              <LazyAnimatedSpan duration={0.12}>
                 <span>
                   <span className="text-purple-400">✔</span> Geolocating country
                   ......... [
                   <span className="text-cyan-400">{visitorData.city}</span>]
                 </span>
               </LazyAnimatedSpan>
-              <LazyAnimatedSpan>
+              <LazyAnimatedSpan duration={0.15}>
                 <span>
                   <span className="text-purple-400">✔</span> Establishing secure
                   channel . [<span className="text-cyan-400">TLS 1.3</span>]
                 </span>
               </LazyAnimatedSpan>
 
-              <LazyTypingAnimation duration={25}>
+              <LazyTypingAnimation duration={10}>
                 ./greet --user antony
               </LazyTypingAnimation>
 
-              <LazyAnimatedSpan>
+              <LazyAnimatedSpan duration={0.15}>
                 <span>
                   <span className="text-cyan-400">root@personal-site:~$</span>{" "}
                   <span className="text-green-400">Welcome visitor to</span>
                 </span>
               </LazyAnimatedSpan>
-              <LazyAnimatedSpan>
+              <LazyAnimatedSpan duration={0.18}>
                 <span className="text-green-400 ml-0">
                   personal-site — Antony Kurniawan
                 </span>
               </LazyAnimatedSpan>
 
-              <LazyAnimatedSpan>
+              <LazyAnimatedSpan duration={0.12}>
                 <span className="text-gray-500">─── Personal site v3.2.1 ───</span>
               </LazyAnimatedSpan>
 
-              <LazyAnimatedSpan delay={400}>
+              <LazyAnimatedSpan delay={150} duration={0.3} onShow={() => { readyRef.current = true; }}>
                 <span
                   className="inline-block cursor-pointer text-cyan-400 hover:text-cyan-300 underline underline-offset-4 subtle-blink"
                   onClick={(e) => {

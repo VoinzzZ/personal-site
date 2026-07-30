@@ -60,15 +60,19 @@ type TerminalTypingMotionComponent = ComponentType<
 interface AnimatedSpanProps extends MotionProps {
   children: React.ReactNode
   delay?: number
+  duration?: number
   className?: string
   startOnView?: boolean
+  onShow?: () => void
 }
 
 export const AnimatedSpan = ({
   children,
   delay = 0,
+  duration = 0.3,
   className,
   startOnView = false,
+  onShow,
   ...props
 }: AnimatedSpanProps) => {
   const elementRef = useRef<HTMLDivElement | null>(null)
@@ -96,9 +100,10 @@ export const AnimatedSpan = ({
       ref={elementRef}
       initial={{ opacity: 0, y: -5 }}
       animate={shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: -5 }}
-      transition={{ duration: 0.3, delay: sequence ? 0 : delay / 1000 }}
+      transition={{ duration, delay: sequence ? 0 : delay / 1000 }}
       className={cn("grid text-sm font-normal tracking-tight", className)}
       onAnimationComplete={() => {
+        if (shouldAnimate) onShow?.()
         if (!sequence) return
         if (itemIndex === null) return
         sequence.completeItem(itemIndex)
@@ -231,6 +236,7 @@ interface TerminalProps {
   className?: string
   sequence?: boolean
   startOnView?: boolean
+  onComplete?: () => void
 }
 
 export const Terminal = ({
@@ -238,6 +244,7 @@ export const Terminal = ({
   className,
   sequence = true,
   startOnView = true,
+  onComplete,
 }: TerminalProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const isInView = useInView(containerRef as React.RefObject<Element>, {
@@ -247,6 +254,13 @@ export const Terminal = ({
 
   const [activeIndex, setActiveIndex] = useState(0)
   const sequenceHasStarted = sequence ? !startOnView || isInView : false
+  const totalItems = useMemo(() => Children.count(children), [children])
+
+  useEffect(() => {
+    if (onComplete && sequence && activeIndex >= totalItems) {
+      onComplete()
+    }
+  }, [activeIndex, totalItems, onComplete, sequence])
 
   const contextValue = useMemo<SequenceContextValue | null>(() => {
     if (!sequence) return null

@@ -16,7 +16,7 @@ export const LazyFlickeringGrid = dynamic(
 export const LazyTerminal = dynamic(
   () =>
     import("@/components/ui/terminal").then((m) => ({ default: m.Terminal })),
-  { ssr: false }
+  { ssr: false, loading: () => <div /> }
 );
 
 export const LazyTypingAnimation = dynamic(

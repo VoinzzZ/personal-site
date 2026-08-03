@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Antony Kurniawan — Software Engineer",
+  title: "Antony — Site",
   description:
     "Personal portfolio of Antony Kurniawan — Software Engineer & Full Stack Developer specializing in clean architectures and scalable backend systems.",
 };

@@ -9,7 +9,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="flex flex-col items-center justify-center min-h-0 sm:min-h-[calc(100vh-8rem)] text-center py-6 sm:py-20"
+      className="flex flex-col items-center justify-center min-h-0 sm:min-h-[calc(100vh-8rem)] text-center py-16 sm:py-20"
     >
       <div className="font-mono text-xs md:text-base text-gray-400 mb-4 select-none">
         <span className="text-cyan-400">root@personal-site:~$</span> whoami
@@ -23,7 +23,7 @@ export default function HeroSection() {
         speed={20}
         repeatInterval={7000}
         onComplete={() => setNameDone(true)}
-        className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-4 font-mono"
+        className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-4 font-mono leading-[1.1] md:leading-[1.05] md:tracking-tighter"
       />
 
       <p className="text-xs sm:text-lg md:text-xl text-gray-200 font-medium tracking-wide font-sans mb-4 sm:mb-8 whitespace-nowrap sm:whitespace-normal">

@@ -4,7 +4,7 @@ export const site = {
   tagline: "Building clean software architectures and engineering scalable backend systems.",
   location: "Surabaya City, Indonesia",
   availability: "Available for Remote & Local WFO",
-  email: "", // TODO: add email
-  github: "", // TODO: add GitHub URL
-  linkedin: "", // TODO: add LinkedIn URL
+  email: "antonynugroho467@gmail.com",
+  github: "https://github.com/VoinzzZ",
+  linkedin: "https://www.linkedin.com/in/antony-kurniawan",
 } as const;

@@ -36,7 +36,7 @@ export default function AboutSection() {
     <section
       ref={sectionRef}
       id="about"
-      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4 scroll-mt-20"
+      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-20 sm:py-24 px-4 scroll-mt-20"
     >
       <div className="w-full max-w-5xl mx-auto">
         {/* Section number */}

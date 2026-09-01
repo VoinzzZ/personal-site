@@ -20,13 +20,13 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     try {
-      if (sessionStorage.getItem(BOOT_STORAGE_KEY) === "1") {
+      if (localStorage.getItem(BOOT_STORAGE_KEY) === "1") {
         setSkipBoot(true);
         setDone(true);
         return;
       }
     } catch {
-      // sessionStorage blocked
+      // localStorage blocked
     }
   }, []);
 
@@ -65,7 +65,7 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
 
   const finish = useCallback(() => {
     try {
-      sessionStorage.setItem(BOOT_STORAGE_KEY, "1");
+      localStorage.setItem(BOOT_STORAGE_KEY, "1");
     } catch {
       // ignore
     }

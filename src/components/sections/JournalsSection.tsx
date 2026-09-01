@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import TypingHeading from "@/components/effects/TypingHeading";
 import FadeIn from "@/components/ui/FadeIn";
 
@@ -61,7 +62,7 @@ export default function JournalsSection({ posts }: { posts: Post[] }) {
     <section
       ref={sectionRef}
       id="journals"
-      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4 scroll-mt-20"
+      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-20 sm:py-24 px-4 scroll-mt-20"
     >
       <div className="w-full max-w-5xl mx-auto">
         <div className="text-xs text-cyan-400 font-mono mb-2 tracking-widest text-left">
@@ -73,19 +74,16 @@ export default function JournalsSection({ posts }: { posts: Post[] }) {
         </div>
 
         <FadeIn visible={inView} delay={600}>
-          <div className="mb-4 text-right hidden md:block">
+          <div className="mb-6 flex items-center justify-between">
+            <p className="text-gray-500 font-mono text-sm">
+              Showing {posts.length} recent entries
+            </p>
             <Link
               href="/journals?viaCd=true"
-              className="group font-mono text-xs text-cyan-400 hover:text-cyan-300 transition-colors subtle-blink"
+              className="group font-mono text-sm text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-2 border border-cyan-400/30 hover:border-cyan-400 px-4 py-2 rounded hover:bg-cyan-400/5"
             >
-              <span className="text-cyan-400">root@personal-site:~/</span>
-              <span className="text-gray-400 group-hover:text-white transition-colors">
-                cd /journals/
-              </span>
-              <span className="text-gray-500 group-hover:text-cyan-400 transition-colors">
-                {" "}
-                →
-              </span>
+              <span>View All Journals</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
             </Link>
           </div>
 
@@ -95,24 +93,38 @@ export default function JournalsSection({ posts }: { posts: Post[] }) {
                 <Link
                   key={post.slug}
                   href={`/journals/${post.slug}`}
-                  className="group block border border-white/10 rounded-lg bg-[#1a1a1a] p-5 hover:border-cyan-400/50 transition-colors hover:shadow-[0_0_20px_-5px_#22d3ee]"
+                  className="group block border border-white/10 rounded-lg bg-[#1a1a1a] overflow-hidden hover:border-cyan-400/50 transition-colors"
                 >
-                  <span
-                    className={`inline-block text-xs font-mono px-2 py-0.5 rounded border mb-3 ${
-                      tagColors[post.metadata.tag] ||
-                      "text-gray-400 border-gray-600"
-                    }`}
-                  >
-                    {tagLabels[post.metadata.tag] || "Blog"}
-                  </span>
+                  {post.metadata.image && (
+                    <div className="relative w-full aspect-video overflow-hidden border-b border-white/10">
+                      <Image
+                        src={post.metadata.image}
+                        alt={post.metadata.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  )}
+                  
+                  <div className="p-5">
+                    <span
+                      className={`inline-block text-xs font-mono px-2 py-0.5 rounded border mb-3 ${
+                        tagColors[post.metadata.tag] ||
+                        "text-gray-400 border-gray-600"
+                      }`}
+                    >
+                      {tagLabels[post.metadata.tag] || "Blog"}
+                    </span>
 
-                  <h3 className="text-sm sm:text-base font-semibold text-white font-mono mb-2 line-clamp-2">
-                    {post.metadata.title}
-                  </h3>
+                    <h3 className="text-sm sm:text-base font-semibold text-white font-mono mb-2 line-clamp-2 group-hover:text-cyan-400 transition-colors">
+                      {post.metadata.title}
+                    </h3>
 
-                  <p className="text-sm text-gray-400 font-mono leading-relaxed line-clamp-3">
-                    {post.metadata.summary}
-                  </p>
+                    <p className="text-sm text-gray-400 font-mono leading-relaxed line-clamp-3">
+                      {post.metadata.summary}
+                    </p>
+                  </div>
                 </Link>
               ))
             ) : (
@@ -123,17 +135,6 @@ export default function JournalsSection({ posts }: { posts: Post[] }) {
                 </p>
               </div>
             )}
-          </div>
-
-          <div className="mt-6 text-center md:hidden">
-            <Link
-              href="/journals?viaCd=true"
-              className="font-mono text-sm sm:text-xs text-cyan-400 transition-colors subtle-blink"
-            >
-              <span className="text-cyan-400">root@personal-site:~/</span>
-              <span className="text-white">cd /journals/</span>
-              <span className="text-cyan-400"> →</span>
-            </Link>
           </div>
         </FadeIn>
       </div>

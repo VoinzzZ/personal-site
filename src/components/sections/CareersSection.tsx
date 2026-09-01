@@ -79,7 +79,7 @@ export default function CareersSection() {
     <section
       ref={sectionRef}
       id="careers"
-      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-10 sm:py-20 px-4 scroll-mt-20"
+      className="flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[75vh] py-20 sm:py-24 px-4 scroll-mt-20"
     >
       <div className="w-full max-w-5xl mx-auto">
         {/* Section number */}
@@ -98,7 +98,7 @@ export default function CareersSection() {
             experiences.map((exp, idx) => (
               <FadeIn key={idx} visible={inView} delay={600 + idx * 200}>
               <div
-                className="border border-white/10 rounded-lg bg-[#1a1a1a] px-4 py-5 sm:p-6 hover:border-purple-400 transition-colors hover:shadow-[0_0_20px_-5px_#a855f7]"
+                className="border border-white/10 rounded-lg bg-[#1a1a1a] px-4 py-5 sm:p-6 hover:border-purple-400/50 transition-colors"
               >
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3">

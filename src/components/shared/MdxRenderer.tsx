@@ -20,7 +20,7 @@ const components = {
     </h3>
   ),
   p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="text-gray-300 font-mono text-sm leading-relaxed mb-4" {...props}>
+    <p className="text-gray-300 font-sans text-base leading-relaxed mb-4" {...props}>
       {children}
     </p>
   ),
@@ -36,17 +36,17 @@ const components = {
     </a>
   ),
   ul: ({ children, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className="list-disc list-inside text-gray-300 font-mono text-sm space-y-1 mb-4 ml-2" {...props}>
+    <ul className="list-disc list-inside text-gray-300 font-sans text-base space-y-2 mb-4 ml-2" {...props}>
       {children}
     </ul>
   ),
   ol: ({ children, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol className="list-decimal list-inside text-gray-300 font-mono text-sm space-y-1 mb-4 ml-2" {...props}>
+    <ol className="list-decimal list-inside text-gray-300 font-sans text-base space-y-2 mb-4 ml-2" {...props}>
       {children}
     </ol>
   ),
   li: ({ children, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
-    <li className="text-gray-300 font-mono text-sm leading-relaxed" {...props}>
+    <li className="text-gray-300 font-sans text-base leading-relaxed" {...props}>
       {children}
     </li>
   ),
@@ -68,7 +68,7 @@ const components = {
   ),
   blockquote: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <blockquote
-      className="border-l-4 border-cyan-500/50 pl-4 italic text-gray-400 font-mono text-sm mb-4"
+      className="border-l-4 border-cyan-500/50 pl-4 italic text-gray-400 font-sans text-base mb-4"
       {...props}
     >
       {children}

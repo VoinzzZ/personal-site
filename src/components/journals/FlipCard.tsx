@@ -16,6 +16,7 @@ import {
   SiNextdotjs,
   SiSupabase,
   SiTailwindcss,
+  SiVercel,
 } from "react-icons/si";
 import { TbBrandPowershell } from "react-icons/tb";
 import { VscTerminalCmd } from "react-icons/vsc";
@@ -36,6 +37,7 @@ const stackIcons: Record<string, ReactNode> = {
   "Next.js": <SiNextdotjs />,
   Supabase: <SiSupabase />,
   "Tailwind CSS": <SiTailwindcss />,
+  Vercel: <SiVercel />,
 };
 
 const stackColors: Record<string, string> = {
@@ -53,12 +55,13 @@ const stackColors: Record<string, string> = {
   "Next.js": "#FFFFFF",
   Supabase: "#3FCF8E",
   "Tailwind CSS": "#06B6D4",
+  Vercel: "#FFFFFF",
 };
 
 const cardHoverBorders: Record<string, string> = {
-  "Node.js": "hover:border-cyan-400/50 hover:shadow-[0_0_20px_-5px_#22d3ee]",
-  Go: "hover:border-blue-400/50 hover:shadow-[0_0_20px_-5px_#60a5fa]",
-  Fullstack: "hover:border-green-400/50 hover:shadow-[0_0_20px_-5px_#4ade80]",
+  "Node.js": "hover:border-cyan-400/50",
+  Go: "hover:border-blue-400/50",
+  Fullstack: "hover:border-green-400/50",
 };
 
 type PostListItem = Pick<BlogPost, "metadata" | "slug">;

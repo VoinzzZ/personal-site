@@ -13,13 +13,24 @@ function formatTime(seconds: number): string {
 
 function VisitorDetails() {
   const [ip, setIp] = useState<string>("—");
+  const [loading, setLoading] = useState(true);
   const [uptime, setUptime] = useState(0);
 
   useEffect(() => {
+    setLoading(true);
     fetch("https://api.ipify.org?format=json")
-      .then((r) => r.json())
-      .then((d) => setIp(d.ip))
-      .catch(() => setIp("—"));
+      .then((r) => {
+        if (!r.ok) throw new Error("Failed to fetch");
+        return r.json();
+      })
+      .then((d) => {
+        setIp(d.ip);
+        setLoading(false);
+      })
+      .catch(() => {
+        setIp("—");
+        setLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -41,7 +52,9 @@ function VisitorDetails() {
         <div className="w-px h-5 bg-white/10" />
         <div className="flex items-center gap-1.5">
           <span className="text-[10px] uppercase tracking-wider text-gray-500">IP</span>
-          <span className="text-purple-400 font-medium">{ip}</span>
+          <span className={`font-medium ${loading ? "text-gray-500" : "text-purple-400"}`}>
+            {loading ? "..." : ip}
+          </span>
         </div>
         <div className="w-px h-5 bg-white/10" />
         <div className="flex items-center gap-1.5">
@@ -103,7 +116,6 @@ export default function Navbar() {
   }, [pathname, pendingSection]);
 
   const scrollToSection = useCallback((sectionId: string) => {
-    setMenuOpen(false);
     const el = document.getElementById(sectionId);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -112,6 +124,7 @@ export default function Navbar() {
       setPendingSection(sectionId);
       router.push("/");
     }
+    setMenuOpen(false);
   }, [router]);
 
   return (

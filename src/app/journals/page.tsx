@@ -16,7 +16,7 @@ export default function JournalsPage() {
           Total entries: {posts.length}
         </p>
 
-        <div className="hidden md:block mb-8">
+        <div className="mb-8">
           <Link
             href="/#journals"
             className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
@@ -42,18 +42,7 @@ export default function JournalsPage() {
           </div>
         )}
 
-        <div className="hidden md:flex justify-end mt-8">
-          <Link
-            href="/#journals"
-            className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"
-          >
-            <span className="text-cyan-400">root@personal-site:~/journals$</span>
-            <span className="text-white">cd ..</span>
-            <span className="text-cyan-400"> →</span>
-          </Link>
-        </div>
-
-        <div className="mt-8 text-center md:hidden">
+        <div className="flex justify-center md:justify-end mt-8">
           <Link
             href="/#journals"
             className="inline-flex items-center gap-1 font-mono text-sm text-cyan-400 transition-colors subtle-blink"

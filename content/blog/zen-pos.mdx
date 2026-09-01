@@ -1,0 +1,114 @@
+---
+title: "Zen POS: Modern Web-Based Point of Sale & Inventory System"
+publishedAt: "2026-09-01"
+summary: "Production-ready Web Point of Sale and inventory platform built with Next.js 16, React 19, Supabase, and Tailwind CSS v4. Features a public landing page for store info & real-time product stock availability, multi-role access control, shift reconciliation, and thermal receipt printing."
+tag: "Fullstack"
+image: "/images/zenpos-image/tumbnail-zenpos.png"
+site: "https://zen-pos-tau.vercel.app/"
+stack: [Next.js, React, TypeScript, Supabase, Tailwind CSS]
+---
+
+## Project Overview
+
+**Zen POS** is a modern, high-performance web-based Point of Sale (POS) and inventory management platform built for retail businesses. Designed specifically for **Zen Petshop**, the application seamlessly combines a **customer-facing public landing page** at the root domain (`/`) with a secure multi-role back-office and POS terminal for business operations.
+
+At the root level, customers and visitors can browse comprehensive store information (location, operating hours, brand partners, testimonials) as well as search the **live public product catalog to check real-time stock availability and pricing** before visiting the physical store.
+
+Live site demo: [zen-pos-tau.vercel.app](https://zen-pos-tau.vercel.app/)
+
+![Zen POS Landing Page & Product Catalog](/images/zenpos-image/landingpage.png)
+
+---
+
+## Key Features & Highlights
+
+### 1. Store Landing Page & Live Product Stock Catalog (Root Page)
+- **Store Information & Branding:** Interactive Bento grid showcase featuring store profile, animated statistics (`CountUp`), brand partners marquee, business operational hours, customer testimonials, and an integrated Google Maps location embed.
+- **Public Product & Stock Availability Catalog:** Customers can instantly browse, search by name/SKU, and filter products by category to verify **real-time stock availability** directly from the web without needing to log in.
+- **Integrated Auth Modal:** Seamless modal login and signup supporting email/password and Google OAuth for staff and managers directly from the landing page.
+
+### 2. Multi-Tier Role & Account Activation System
+- **Superadmin:** Full system oversight, account activation/deactivation gatekeeper (`pending` → `active` / `inactive`), role promotion/demotion, and system audit logs.
+- **Admin:** Catalog management (products, categories, brands), stock management (Stock In, Stock Opname, Stock Movement), store configuration, and comprehensive financial reports.
+- **Cashier:** Shift opening with opening cash verification, fast POS checkout workspace, thermal receipt generation, and transaction returns.
+- **Pending Approval Workflow:** New registrations (via email or Google OAuth) land in a pending state and require Superadmin approval before gaining system access.
+
+### 3. Fast POS Workspace & Checkout
+- **Real-Time Product Lookup:** Instant filtering by category chips and live SKU/barcode search.
+- **In-Browser Barcode Scanning:** Integrated camera barcode reader powered by native `BarcodeDetector` APIs.
+- **Multi-Payment Methods:** Native support for Cash (`tunai` with automatic change calculation), `qris`, and `debit` card payments.
+- **Thermal Receipt Generation:** Print directly to 80mm thermal receipt printers via browser print or export receipts as PDFs powered by `jsPDF`.
+
+![Zen POS Cashier Workspace](/images/zenpos-image/dashboardCashierPage.png)
+
+### 4. Strict Shift Management & Cash Reconciliation
+- **One Open Shift Constraint:** Enforces cash drawer accountability per active cashier.
+- **Shift Reconciliation:** Compares physical drawer cash against calculated drawer balances (`Opening Cash + Cash Sales - Cash Returns`) to record shift variances.
+
+### 5. Inventory Tracking & Stock Opname
+- **Stock In:** Supplier purchase invoice entry tracking supplier data, purchase costs, and incoming quantities.
+- **Stock Opname:** Regular physical audit reconciliation against system inventory with discrepancy logging.
+- **Stock Movement Ledger:** Complete audit trail (`in`, `out`, `adjustment`, `opname`) recording previous stock, resulting stock, transaction references, and user stamps.
+- **Item Returns (Retur):** Transaction-referenced item return workflow that restores product stock and adjusts the active cashier's expected drawer balance.
+
+### 6. Advanced Business Reports & Gross Profit Analytics
+- **Cost of Goods Sold (COGS / HPP):** Calculates gross margins based on weighted-average product purchase costs at the time of each sale.
+- **Cash Flow vs Profit:** Separates Net Cash Flow (`Sales - Returns - Stock Purchases`) from Gross Profit (`Revenue - COGS`).
+- **Interactive Visualizations:**
+  - Payment method distribution donut chart.
+  - Top 10 best-selling products with brand and category filters.
+  - Daily income vs expense bar charts adjusted to the `Asia/Jakarta` timezone.
+  - Valuation metrics for unsold inventory and damaged/lost opname assets.
+
+![Zen POS Admin Dashboard](/images/zenpos-image/dashboardAdminPage.png)
+
+![Zen POS Admin Reports](/images/zenpos-image/reportAdminPage.png)
+
+![Zen POS Admin Analytics](/images/zenpos-image/reportAdminPage2.png)
+
+---
+
+## Architecture & Security
+
+```
+Public Users (Store Info & Stock Catalog)  │  Staff & Management (POS & Admin)
+               │                                       │
+               └───────────────────┬───────────────────┘
+                                   │
+                                   ▼
+             Next.js 16 App Router (React 19 & Tailwind CSS v4)
+                                   │
+                                   ▼
+                  Next.js Server Actions & Middleware
+                                   │
+                                   ▼
+                Supabase PostgreSQL (Row Level Security)
+                ├── User Profiles & Roles (Superadmin / Admin / Cashier)
+                ├── Atomic RPC: create_pos_transaction (Row Locks 'FOR UPDATE')
+                ├── Atomic RPC: create_pos_retur (Stock & Balance Restorations)
+                └── Storage Bucket: product-images (Restricted Write Policies)
+```
+
+### Atomic Database RPC Functions
+To prevent race conditions, stock overselling, or client-side payload tampering, core transaction logic runs inside PostgreSQL `SECURITY DEFINER` stored procedures:
+- `create_pos_transaction`: Validates open cashier shift with row-level locks (`FOR UPDATE`), retrieves prices directly from the database catalog, validates stock levels, deducts inventory, creates transaction records, and logs stock movements atomically.
+- `create_pos_retur`: Validates returnable item quantities against prior returns, restores product stock, and logs audit movements.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Framework** | Next.js 16 (App Router, Server Actions) |
+| **Frontend UI** | React 19, TypeScript, Tailwind CSS v4, React Icons |
+| **Backend & Database** | Supabase (PostgreSQL, Auth, RLS Policies, Storage) |
+| **Receipts & Documents** | jsPDF (Thermal 80mm receipt generation), Web Printing API |
+| **Hardware Integration** | Web BarcodeDetector API & MediaDevices |
+| **Deployment** | Vercel |
+
+---
+
+## Live Demo
+
+Explore the live application: **[https://zen-pos-tau.vercel.app/](https://zen-pos-tau.vercel.app/)**

@@ -13,6 +13,9 @@ import {
   SiMysql,
   SiGnubash,
   SiPrisma,
+  SiNextdotjs,
+  SiSupabase,
+  SiTailwindcss,
 } from "react-icons/si";
 import { TbBrandPowershell } from "react-icons/tb";
 import { VscTerminalCmd } from "react-icons/vsc";
@@ -30,6 +33,9 @@ const stackIcons: Record<string, ReactNode> = {
   PowerShell: <TbBrandPowershell />,
   CMD: <VscTerminalCmd />,
   Prisma: <SiPrisma />,
+  "Next.js": <SiNextdotjs />,
+  Supabase: <SiSupabase />,
+  "Tailwind CSS": <SiTailwindcss />,
 };
 
 const stackColors: Record<string, string> = {
@@ -44,6 +50,9 @@ const stackColors: Record<string, string> = {
   PowerShell: "#5391FE",
   CMD: "#4D4D4D",
   Prisma: "#2D3748",
+  "Next.js": "#FFFFFF",
+  Supabase: "#3FCF8E",
+  "Tailwind CSS": "#06B6D4",
 };
 
 const cardHoverBorders: Record<string, string> = {
@@ -126,7 +135,29 @@ export default function FlipCard({
           </h3>
 
           <div className="flex flex-col gap-3 w-full max-w-full sm:max-w-50">
-            {post.metadata.github ? (
+            {post.metadata.site ? (
+              <a
+                href={post.metadata.site}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 px-4 bg-transparent border border-emerald-500 text-emerald-400 font-mono text-sm font-semibold text-center hover:bg-emerald-500 hover:text-black transition-all duration-300 rounded-none flex items-center justify-center gap-2"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-4 h-4"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                  <path d="M2 12h20" />
+                </svg>
+                <span>site</span>
+              </a>
+            ) : post.metadata.github ? (
               <a
                 href={post.metadata.github}
                 target="_blank"

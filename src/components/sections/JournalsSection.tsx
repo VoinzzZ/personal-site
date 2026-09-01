@@ -12,6 +12,7 @@ interface BlogMeta {
   tag: string;
   image: string;
   github?: string;
+  site?: string;
   stack: string[];
 }
 

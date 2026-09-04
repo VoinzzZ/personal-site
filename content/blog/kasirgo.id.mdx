@@ -1,0 +1,42 @@
+---
+title: "KasirGO — POS Mobile"
+publishedAt: "2026-03-15"
+summary: "Aplikasi mobile Point of Sale (POS) lengkap untuk toko ritel dengan akses multi-peran, manajemen inventaris, pemindaian barcode, pencetakan thermal Bluetooth, dan laporan keuangan."
+tag: "Fullstack"
+image: "/images/tumbnail_kasirGo.webp"
+stack: [React, Node.js, Express, MySQL, Prisma]
+---
+
+## Gambaran Proyek
+
+KasirGO adalah aplikasi mobile Point of Sale (POS) komprehensif yang dirancang untuk bisnis ritel kecil hingga menengah. Aplikasi ini memiliki sistem multi-peran (Owner, Admin, Cashier), pelacakan inventaris real-time, pemindaian barcode, pencetakan struk thermal Bluetooth, serta manajemen keuangan dengan dashboard analitik.
+
+![Dashboard POS KasirGO](/images/kasirgo2.webp)
+
+## Fitur Utama
+
+- **Sistem Multi-Peran:** Owner, Admin, dan Cashier dengan dashboard serta izin khusus per peran.
+- **Manajemen Produk:** CRUD lengkap dengan unggah gambar (Cloudinary), dukungan SKU/barcode, kategori, dan merek.
+- **Transaksi POS:** Checkout berbasis keranjang dengan metode pembayaran Tunai, QRIS, dan Debit. Mendukung transaksi draft.
+- **Pemindaian Barcode:** Pemindaian barcode tunggal maupun massal untuk pencarian produk dan checkout yang cepat.
+- **Pencetakan Bluetooth:** Pencetakan struk thermal ESC/POS melalui Bluetooth.
+- **Manajemen Inventaris:** Pelacakan pergerakan stok, stock opname dengan penyesuaian otomatis, dan peringatan stok menipis.
+- **Manajemen Retur:** Retur per item yang merujuk pada transaksi asli.
+- **Manajemen Keuangan:** Kategori pemasukan/pengeluaran, transaksi keuangan dengan lampiran bukti, serta alur verifikasi.
+- **Analitik Owner:** Grafik pendapatan, produk terlaris, trafik transaksi, dan performa karyawan.
+- **Registrasi Multi-Langkah:** Registrasi owner dan karyawan dengan verifikasi OTP email serta alur persetujuan.
+- **Push Notification:** Peringatan stok menipis dan notifikasi dalam aplikasi melalui Expo Push API.
+- **Tema Terang/Gelap:** Preferensi tema yang tersimpan di setiap sesi.
+
+## Tech Stack
+
+| Lapisan | Teknologi |
+|---|---|
+| Mobile | React Native, Expo SDK 50, TypeScript, Expo Router |
+| Backend | Node.js, Express 5, Prisma ORM |
+| Database | MySQL |
+| Autentikasi | JWT (access + refresh token dengan pencabutan token) |
+| Penyimpanan Berkas | Cloudinary |
+| Pencetakan | Printer thermal Bluetooth ESC/POS |
+| Notifikasi | Expo Push Notifications |
+| Keamanan | Helmet, CORS, Rate Limiting, Sanitasi Input, Validasi Joi |

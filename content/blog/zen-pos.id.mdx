@@ -1,0 +1,115 @@
+---
+title: "Zen POS: Sistem Point of Sale & Inventaris Modern Berbasis Web"
+publishedAt: "2026-09-01"
+summary: "Platform Point of Sale dan inventaris web siap produksi yang dibangun dengan Next.js 16, React 19, Supabase, dan Tailwind CSS v4. Memiliki landing page publik untuk informasi toko serta ketersediaan stok produk real-time, kontrol akses multi-peran, rekonsiliasi shift, dan pencetakan struk thermal."
+tag: "Fullstack"
+image: "/images/zenpos-image/tumbnail-zenpos.png"
+site: "https://zen-pos-tau.vercel.app/"
+stack: [Next.js, TypeScript, Supabase, Tailwind CSS, Vercel]
+---
+
+## Gambaran Proyek
+
+**Zen POS** adalah platform Point of Sale (POS) dan manajemen inventaris berbasis web yang modern serta berkinerja tinggi untuk bisnis ritel. Dirancang khusus untuk **Zen Petshop**, aplikasi ini menggabungkan **landing page publik untuk pelanggan** pada root domain (`/`) dengan back-office multi-peran yang aman dan terminal POS untuk operasional bisnis.
+
+Pada level root, pelanggan dan pengunjung dapat melihat informasi toko secara lengkap (lokasi, jam operasional, mitra merek, testimoni), serta mencari **katalog produk publik secara langsung untuk memeriksa ketersediaan stok dan harga secara real-time** sebelum mengunjungi toko fisik.
+
+Demo situs: [zen-pos-tau.vercel.app](https://zen-pos-tau.vercel.app/)
+
+![Landing Page & Katalog Produk Zen POS](/images/zenpos-image/landingpage.png)
+
+---
+
+## Fitur Utama & Sorotan
+
+### 1. Landing Page Toko & Katalog Stok Produk Langsung (Halaman Root)
+- **Informasi & Branding Toko:** Showcase Bento grid interaktif yang menampilkan profil toko, statistik animasi (`CountUp`), marquee mitra merek, jam operasional bisnis, testimoni pelanggan, dan embed lokasi Google Maps.
+- **Katalog Produk & Ketersediaan Stok Publik:** Pelanggan dapat langsung melihat, mencari berdasarkan nama/SKU, dan memfilter produk berdasarkan kategori untuk memverifikasi **ketersediaan stok real-time** dari web tanpa perlu login.
+- **Modal Autentikasi Terintegrasi:** Login dan signup modal yang mulus dengan email/password serta Google OAuth untuk staf dan manajer langsung dari landing page.
+
+### 2. Sistem Aktivasi Akun & Peran Bertingkat
+- **Superadmin:** Pengawasan sistem penuh, penjaga aktivasi/nonaktif akun (`pending` → `active` / `inactive`), promosi/demosi peran, dan audit log sistem.
+- **Admin:** Manajemen katalog (produk, kategori, merek), manajemen stok (Stock In, Stock Opname, Stock Movement), konfigurasi toko, dan laporan keuangan komprehensif.
+- **Kasir:** Pembukaan shift dengan verifikasi uang awal, workspace POS checkout cepat, pembuatan struk thermal, dan retur transaksi.
+- **Alur Persetujuan Pending:** Registrasi baru (melalui email atau Google OAuth) masuk ke status pending dan memerlukan persetujuan Superadmin sebelum memperoleh akses sistem.
+
+### 3. Workspace POS & Checkout Cepat
+- **Pencarian Produk Real-Time:** Pemfilteran instan berdasarkan chip kategori dan pencarian SKU/barcode langsung.
+- **Pemindaian Barcode di Browser:** Pembaca barcode kamera terintegrasi yang didukung API `BarcodeDetector` bawaan.
+- **Metode Pembayaran Multi:** Dukungan bawaan untuk Tunai (`tunai` dengan perhitungan kembalian otomatis), `qris`, dan kartu `debit`.
+- **Pembuatan Struk Thermal:** Cetak langsung ke printer thermal struk 80mm melalui browser atau ekspor struk sebagai PDF menggunakan `jsPDF`.
+
+![Workspace Kasir Zen POS](/images/zenpos-image/dashboardCashierPage.png)
+
+### 4. Manajemen Shift Ketat & Rekonsiliasi Kas
+- **Batas Satu Shift Aktif:** Menegakkan akuntabilitas laci kas untuk setiap kasir aktif.
+- **Rekonsiliasi Shift:** Membandingkan kas fisik di laci dengan saldo laci terhitung (`Uang Awal + Penjualan Tunai - Retur Tunai`) untuk mencatat selisih shift.
+
+### 5. Pelacakan Inventaris & Stock Opname
+- **Stock In:** Pencatatan faktur pembelian pemasok yang melacak data pemasok, biaya pembelian, dan jumlah barang masuk.
+- **Stock Opname:** Rekonsiliasi audit fisik rutin terhadap inventaris sistem dengan pencatatan selisih.
+- **Ledger Pergerakan Stok:** Audit trail lengkap (`in`, `out`, `adjustment`, `opname`) yang mencatat stok sebelumnya, stok akhir, referensi transaksi, dan identitas pengguna.
+- **Retur Item:** Alur retur item yang merujuk transaksi, mengembalikan stok produk, serta menyesuaikan saldo laci kasir aktif yang diharapkan.
+
+### 6. Laporan Bisnis Lanjutan & Analitik Laba Kotor
+- **Harga Pokok Penjualan (HPP / COGS):** Menghitung margin kotor berdasarkan biaya pembelian produk rata-rata tertimbang pada saat setiap penjualan.
+- **Arus Kas vs Laba:** Memisahkan Arus Kas Bersih (`Penjualan - Retur - Pembelian Stok`) dari Laba Kotor (`Pendapatan - HPP`).
+- **Visualisasi Interaktif:**
+  - Donut chart distribusi metode pembayaran.
+  - Top 10 produk terlaris dengan filter merek dan kategori.
+  - Bar chart pendapatan vs pengeluaran harian yang disesuaikan dengan timezone `Asia/Jakarta`.
+  - Metrik valuasi untuk inventaris belum terjual serta aset opname rusak/hilang.
+
+![Dashboard Admin Zen POS](/images/zenpos-image/dashboardAdminPage.png)
+
+![Laporan Admin Zen POS](/images/zenpos-image/reportAdminPage.png)
+
+![Analitik Admin Zen POS](/images/zenpos-image/reportAdminPage2.png)
+
+---
+
+## Arsitektur & Keamanan
+
+```
+Pengguna Publik (Info Toko & Katalog Stok)  │  Staf & Manajemen (POS & Admin)
+                │                                       │
+                └───────────────────┬───────────────────┘
+                                    │
+                                    ▼
+              Next.js 16 App Router (React 19 & Tailwind CSS v4)
+                                    │
+                                    ▼
+                   Next.js Server Actions & Middleware
+                                    │
+                                    ▼
+                 Supabase PostgreSQL (Row Level Security)
+                 ├── Profil & Peran Pengguna (Superadmin / Admin / Cashier)
+                 ├── RPC Atomik: create_pos_transaction (Row Locks 'FOR UPDATE')
+                 ├── RPC Atomik: create_pos_retur (Pemulihan Stok & Saldo)
+                 └── Storage Bucket: product-images (Kebijakan Write Terbatas)
+```
+
+### Fungsi RPC Database Atomik
+
+Untuk mencegah race condition, overselling stok, atau manipulasi payload dari sisi client, logika transaksi inti berjalan di dalam stored procedure PostgreSQL `SECURITY DEFINER`:
+- `create_pos_transaction`: Memvalidasi shift kasir aktif dengan row-level lock (`FOR UPDATE`), mengambil harga langsung dari katalog database, memvalidasi level stok, mengurangi inventaris, membuat catatan transaksi, dan mencatat pergerakan stok secara atomik.
+- `create_pos_retur`: Memvalidasi kuantitas item yang dapat diretur terhadap retur sebelumnya, memulihkan stok produk, dan mencatat pergerakan audit.
+
+---
+
+## Tech Stack
+
+| Lapisan | Teknologi |
+|---|---|
+| **Framework** | Next.js 16 (App Router, Server Actions) |
+| **Frontend UI** | React 19, TypeScript, Tailwind CSS v4, React Icons |
+| **Backend & Database** | Supabase (PostgreSQL, Auth, RLS Policies, Storage) |
+| **Struk & Dokumen** | jsPDF (pembuatan struk thermal 80mm), Web Printing API |
+| **Integrasi Hardware** | Web BarcodeDetector API & MediaDevices |
+| **Deployment** | Vercel |
+
+---
+
+## Demo Langsung
+
+Jelajahi aplikasi langsung: **[https://zen-pos-tau.vercel.app/](https://zen-pos-tau.vercel.app/)**

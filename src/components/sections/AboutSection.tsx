@@ -7,8 +7,10 @@ import { LazyScrambledText } from "@/components/effects/DynamicEffects";
 import SkillCard from "@/components/ui/SkillCard";
 import FadeIn from "@/components/ui/FadeIn";
 import { skills } from "@/constants";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 export default function AboutSection() {
+  const { language, messages } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
 
@@ -25,7 +27,7 @@ export default function AboutSection() {
           setInView(false);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
 
     observer.observe(el);
@@ -41,7 +43,7 @@ export default function AboutSection() {
       <div className="w-full max-w-5xl mx-auto">
         {/* Section number */}
         <div className="text-xs text-cyan-400 font-mono mb-2 tracking-widest text-left">
-          // 01
+          {"// 01"}
         </div>
 
         {/* Headline with typing animation */}
@@ -51,81 +53,82 @@ export default function AboutSection() {
 
         {/* macOS-style terminal window */}
         <FadeIn visible={inView} delay={600}>
-        <div className="border border-white/10 rounded-lg overflow-hidden bg-[#1a1a1a]">
-          {/* Title bar */}
-          <div className="flex items-center gap-1.5 px-4 py-3 bg-[#252525] border-b border-white/10">
-            <span className="w-3 h-3 rounded-full bg-red-500" />
-            <span className="w-3 h-3 rounded-full bg-yellow-500" />
-            <span className="w-3 h-3 rounded-full bg-green-500" />
-            <span className="ml-4 text-xs text-gray-500 font-mono">about.md — terminal</span>
+          <div className="border border-white/10 rounded-lg overflow-hidden bg-[#1a1a1a]">
+            {/* Title bar */}
+            <div className="flex items-center gap-1.5 px-4 py-3 bg-[#252525] border-b border-white/10">
+              <span className="w-3 h-3 rounded-full bg-red-500" />
+              <span className="w-3 h-3 rounded-full bg-yellow-500" />
+              <span className="w-3 h-3 rounded-full bg-green-500" />
+              <span className="ml-4 text-xs text-gray-500 font-mono">
+                about.md — terminal
+              </span>
+            </div>
+
+            {/* Terminal body */}
+            <div className="px-4 sm:px-6 py-6 font-sans text-base leading-relaxed md:text-lg">
+              <div className="font-mono text-sm md:text-base mb-3">
+                <span className="text-cyan-400">
+                  <LetterGlitch
+                    text="root@personal-site:~$"
+                    as="span"
+                    trigger="mount"
+                    delayStart={3000}
+                    speed={25}
+                    repeatInterval={20000}
+                    showCursor={false}
+                    showGlow={false}
+                  />
+                </span>{" "}
+                <span className="text-gray-400">cat about.md</span>
+              </div>
+
+              <p className="text-purple-400 font-semibold mb-3">
+                {messages.about.profileTitle}
+              </p>
+
+              <LazyScrambledText
+                key={language}
+                className="m-0! max-w-none! text-sm sm:text-base md:text-lg text-gray-300 text-justify mb-6"
+                radius={45}
+                duration={1.2}
+                speed={0.3}
+                scrambleChars=""
+              >
+                {messages.about.summary}
+              </LazyScrambledText>
+
+              <div className="h-5" />
+
+              <div className="font-mono text-sm md:text-base mb-4">
+                <span className="text-cyan-400">
+                  <LetterGlitch
+                    text="root@personal-site:~$"
+                    as="span"
+                    trigger="mount"
+                    delayStart={7000}
+                    speed={25}
+                    repeatInterval={25000}
+                    showCursor={false}
+                    showGlow={false}
+                  />
+                </span>{" "}
+                <span className="text-gray-400">ls -la /skills/</span>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
+                {skills.map((skill) => (
+                  <SkillCard
+                    key={skill.name}
+                    name={skill.name}
+                    icon={skill.icon}
+                    iconColor={skill.iconColor}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-
-          {/* Terminal body */}
-          <div className="px-4 sm:px-6 py-6 font-sans text-base leading-relaxed md:text-lg">
-            <div className="font-mono text-sm md:text-base mb-3">
-              <span className="text-cyan-400">
-                <LetterGlitch
-                  text="root@personal-site:~$"
-                  as="span"
-                  trigger="mount"
-                  delayStart={3000}
-                  speed={25}
-                  repeatInterval={20000}
-                  showCursor={false}
-                  showGlow={false}
-                />
-              </span>{" "}
-              <span className="text-gray-400">cat about.md</span>
-            </div>
-
-            <p className="text-purple-400 font-semibold mb-3">[PROFILE SUMMARY]</p>
-
-            <LazyScrambledText
-              className="m-0! max-w-none! text-sm sm:text-base md:text-lg text-gray-300 text-justify mb-6"
-              radius={45}
-              duration={1.2}
-              speed={0.3}
-              scrambleChars=""
-            >
-              A system-minded Network and Software Engineer currently pursuing an Applied Bachelor's in Telecommunications
-              Engineering. Focused on bridging network infrastructure, telecom protocols, and full-stack software
-              architecture. Adept at navigating cross-platform environments, untangling complex backend logic, and
-              optimizing low-level systems. Driven by a structured problem-solving approach to engineer resilient, 
-              high-availability digital infrastructure.
-            </LazyScrambledText>
-
-            <div className="h-5" />
-
-            <div className="font-mono text-sm md:text-base mb-4">
-              <span className="text-cyan-400">
-                <LetterGlitch
-                  text="root@personal-site:~$"
-                  as="span"
-                  trigger="mount"
-                  delayStart={7000}
-                  speed={25}
-                  repeatInterval={25000}
-                  showCursor={false}
-                  showGlow={false}
-                />
-              </span>{" "}
-              <span className="text-gray-400">ls -la /skills/</span>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
-              {skills.map((skill) => (
-                <SkillCard
-                  key={skill.name}
-                  name={skill.name}
-                  icon={skill.icon}
-                  iconColor={skill.iconColor}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </FadeIn>
-    </div>
+        </FadeIn>
+      </div>
     </section>
   );
 }

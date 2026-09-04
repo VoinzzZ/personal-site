@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import TypingHeading from "@/components/effects/TypingHeading";
 import FadeIn from "@/components/ui/FadeIn";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 interface BlogMeta {
   title: string;
@@ -23,6 +24,7 @@ interface Post {
 }
 
 export default function JournalsSection({ posts }: { posts: Post[] }) {
+  const { messages } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
 
@@ -39,7 +41,7 @@ export default function JournalsSection({ posts }: { posts: Post[] }) {
           setInView(false);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
 
     observer.observe(el);
@@ -66,7 +68,7 @@ export default function JournalsSection({ posts }: { posts: Post[] }) {
     >
       <div className="w-full max-w-5xl mx-auto">
         <div className="text-xs text-cyan-400 font-mono mb-2 tracking-widest text-left">
-          // 03
+          {"// 03"}
         </div>
 
         <div className="mb-6 text-left">
@@ -76,13 +78,13 @@ export default function JournalsSection({ posts }: { posts: Post[] }) {
         <FadeIn visible={inView} delay={600}>
           <div className="mb-6 flex items-center justify-between">
             <p className="text-gray-500 font-mono text-sm">
-              Showing {posts.length} recent entries
+              {messages.journals.recent(posts.length)}
             </p>
             <Link
               href="/journals?viaCd=true"
               className="group font-mono text-sm text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-2 border border-cyan-400/30 hover:border-cyan-400 px-4 py-2 rounded hover:bg-cyan-400/5"
             >
-              <span>View All Journals</span>
+              <span>{messages.journals.viewAll}</span>
               <span className="group-hover:translate-x-1 transition-transform">→</span>
             </Link>
           </div>
@@ -106,12 +108,11 @@ export default function JournalsSection({ posts }: { posts: Post[] }) {
                       />
                     </div>
                   )}
-                  
+
                   <div className="p-5">
                     <span
                       className={`inline-block text-xs font-mono px-2 py-0.5 rounded border mb-3 ${
-                        tagColors[post.metadata.tag] ||
-                        "text-gray-400 border-gray-600"
+                        tagColors[post.metadata.tag] || "text-gray-400 border-gray-600"
                       }`}
                     >
                       {tagLabels[post.metadata.tag] || "Blog"}
@@ -130,8 +131,7 @@ export default function JournalsSection({ posts }: { posts: Post[] }) {
             ) : (
               <div className="col-span-full border border-dashed border-gray-700 rounded-lg p-12 text-center">
                 <p className="text-gray-500 font-mono text-base">
-                  <span className="text-yellow-500">$</span> No entries yet —
-                  currently building...
+                  <span className="text-yellow-500">$</span> {messages.journals.empty}
                 </p>
               </div>
             )}

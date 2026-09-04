@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import LetterGlitch from "@/components/effects/LetterGlitch";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 export default function HeroSection() {
+  const { messages } = useLanguage();
   const [nameDone, setNameDone] = useState(false);
 
   return (
@@ -27,20 +29,21 @@ export default function HeroSection() {
       />
 
       <p className="text-xs sm:text-lg md:text-xl text-gray-200 font-medium tracking-wide font-sans mb-4 sm:mb-8 whitespace-nowrap sm:whitespace-normal">
-        Software Engineer{" "}
-        <span className="text-gray-250 mx-2 font-mono">|</span> Full Stack
-        Developer{" "}
-        <span className="text-gray-250 mx-2 font-mono">|</span> Network Engineer
+        {messages.hero.roles.map((role, index) => (
+          <span key={role}>
+            {index > 0 && <span className="text-gray-250 mx-2 font-mono">|</span>}
+            {role}
+          </span>
+        ))}
       </p>
 
       <p className="text-sm sm:text-base text-gray-100 font-mono mb-2">
-        Engineering clean software architectures and high-availability network systems.
+        {messages.hero.tagline}
       </p>
 
       <p className="text-[10px] sm:text-xs md:text-sm text-cyan-400 font-mono mb-6 sm:mb-10 whitespace-nowrap">
-        Surabaya City, Indonesia{" "}
-        <span className="text-cyan-200">|</span> Available for Remote & Local
-        WFO
+        {messages.hero.location} <span className="text-cyan-200">|</span>{" "}
+        {messages.hero.availability}
       </p>
 
       <div className="flex flex-col sm:flex-row items-center gap-4 font-mono text-sm">

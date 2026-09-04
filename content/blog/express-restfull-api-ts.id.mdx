@@ -1,0 +1,230 @@
+---
+title: "RESTful API Manajemen Pengguna dengan Express, TypeScript, dan MySQL"
+publishedAt: "2025-03-12"
+summary: "REST API Clean Architecture untuk manajemen pengguna yang dibangun dengan Express.js, TypeScript, MySQL, JWT, dan validasi Zod."
+tag: "Node.js"
+image: "/images/expressTs-restfull-api.webp"
+github: "https://github.com/VoinzzZ/restfull-api-ts"
+stack: [TypeScript, Node.js, Express, MySQL]
+---
+
+RESTful API untuk **Manajemen Pengguna** yang dibangun dengan **Express.js**, **TypeScript**, dan **MySQL** mengikuti prinsip **Clean Architecture**. Tujuannya adalah menjaga logika bisnis tetap terpisah dari framework dan database sambil mempertahankan struktur yang bersih serta mudah diuji.
+
+## Arsitektur
+
+```
+src/
+├── domain/              # Entitas bisnis, interface repository, custom errors
+├── application/         # Use cases (logika bisnis) dan DTO
+├── infrastructure/      # Koneksi database dan implementasi repository
+└── interfaces/          # Controllers, routes, dan middlewares (lapisan HTTP)
+```
+
+Setiap lapisan hanya bergantung pada lapisan **di bawahnya**.
+
+## Tech Stack
+
+| Alat | Kegunaan |
+|---|---|
+| Express.js | Framework HTTP |
+| TypeScript | Keamanan tipe |
+| MySQL + mysql2 | Database & driver query |
+| Zod | Validasi request |
+| bcryptjs | Hashing kata sandi |
+| jsonwebtoken | Autentikasi JWT |
+| ts-node-dev | Server pengembangan dengan hot reload |
+
+## Prasyarat
+
+- Node.js >= 18
+- MySQL >= 8.0
+- npm >= 9
+
+## Instalasi
+
+### 1) Clone repository
+
+```bash
+git clone https://github.com/your-username/restfull-api-ts.git
+cd restfull-api-ts
+```
+
+### 2) Instal dependensi
+
+```bash
+npm install
+```
+
+### 3) Konfigurasi variabel lingkungan
+
+```bash
+cp .env.example .env
+```
+
+Sesuaikan `.env` dengan nilai Anda:
+
+```env
+PORT=3000
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=password_anda
+DB_NAME=database_anda
+JWT_SECRET=kunci_secret_anda
+JWT_EXPIRES_IN=7d
+```
+
+### 4) Buat tabel database
+
+```sql
+CREATE TABLE users (
+  id         INT          NOT NULL AUTO_INCREMENT,
+  name       VARCHAR(100) NOT NULL,
+  email      VARCHAR(100) NOT NULL,
+  password   VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### 5) Jalankan server pengembangan
+
+```bash
+npm run dev
+```
+
+Server berjalan di `http://localhost:3000`.
+
+## Skrip yang Tersedia
+
+| Skrip | Deskripsi |
+|---|---|
+| `npm run dev` | Jalankan server pengembangan dengan hot reload |
+| `npm run build` | Kompilasi TypeScript ke JavaScript |
+| `npm start` | Jalankan hasil build produksi |
+
+## Endpoint API
+
+Base URL: `http://localhost:3000/api`
+
+### Users
+
+| Method | Endpoint | Deskripsi | Auth |
+|---|---|---|---|
+| `POST` | `/users` | Buat pengguna baru | -- |
+| `GET` | `/users` | Ambil semua pengguna | -- |
+| `GET` | `/users/:id` | Ambil pengguna berdasarkan ID | -- |
+| `PUT` | `/users/:id` | Perbarui pengguna | -- |
+| `DELETE` | `/users/:id` | Hapus pengguna | -- |
+
+## Contoh Request & Response
+
+### POST /api/users
+
+**Body request:**
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "secret123"
+}
+```
+
+**Response `201`:**
+```json
+{
+  "status": "success",
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "updated_at": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
+
+### GET /api/users
+
+**Response `200`:**
+```json
+{
+  "status": "success",
+  "data": [...]
+}
+```
+
+### PUT /api/users/:id
+
+**Body request** (semua kolom opsional):
+```json
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com",
+  "password": "password_baru123"
+}
+```
+
+### Response Error
+
+```json
+{
+  "status": "error",
+  "message": "User not found"
+}
+```
+
+### Response Error Validasi
+
+```json
+{
+  "status": "error",
+  "message": "Validation failed",
+  "errors": [
+    { "field": "email", "message": "Format email tidak valid" }
+  ]
+}
+```
+
+## Tanggung Jawab Tiap Lapisan
+
+| Lapisan | Folder | Tanggung Jawab |
+|---|---|---|
+| **Domain** | `src/domain/` | Entitas, interface repository, error bisnis |
+| **Application** | `src/application/` | Use case yang mengorkestrasi logika bisnis |
+| **Infrastructure** | `src/infrastructure/` | Query MySQL, koneksi database |
+| **Interface** | `src/interfaces/` | Controller HTTP, routes, middleware Express |
+
+## Struktur Proyek
+
+```
+src/
+├── domain/
+│   ├── entities/User.ts
+│   ├── repositories/IUserRepository.ts
+│   └── errors/AppError.ts
+├── application/
+│   ├── dtos/UserDTO.ts
+│   └── use-cases/
+│       ├── CreateUserUseCase.ts
+│       ├── GetAllUsersUseCase.ts
+│       ├── GetUserByIdUseCase.ts
+│       ├── UpdateUserUseCase.ts
+│       └── DeleteUserUseCase.ts
+├── infrastructure/
+│   ├── database/connection.ts
+│   └── repositories/MysqlUserRepository.ts
+├── interfaces/
+│   ├── controllers/UserController.ts
+│   ├── routes/user.routes.ts
+│   └── middlewares/
+│       ├── errorHandler.ts
+│       └── validate.ts
+├── app.ts
+└── server.ts
+```
+
+## Lisensi
+
+MIT

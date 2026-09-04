@@ -1,0 +1,156 @@
+---
+title: "Note App: Catatan Full-Stack dengan React, Express, dan MongoDB"
+publishedAt: "2025-06-21"
+summary: "Aplikasi catatan aman berbasis JWT dengan tag, pin, pencarian, serta tema gelap/terang yang dibangun di atas React 19, Express, dan MongoDB."
+tag: "Fullstack"
+image: "/images/note-app-login.webp"
+github: "https://github.com/VoinzzZ/Note-App"
+stack: [React, Node.js, Express, MongoDB]
+---
+
+Aplikasi pencatatan full-stack dengan autentikasi, CRUD, pin, tag, pencarian, serta tema gelap/terang. Frontend menggunakan React 19 dengan Vite + Tailwind; backend menggunakan Node.js, Express, dan MongoDB dengan JWT untuk autentikasi.
+
+## Gambaran Umum
+
+Note App dibangun agar terasa cepat dan fokus: pencatatan cepat, pengorganisasian mudah, dan nyaman dibaca. Aplikasi ini menekankan alur tugas (catat → tag → pin → cari) dengan UI minimal yang tetap mudah digunakan di perangkat mobile.
+
+## Tangkapan Layar
+![Layar login Note App](/images/note-app-login.webp)
+![Dashboard catatan dengan pencarian, tag, dan pin](/images/note-app-2.webp)
+![Modal editor catatan dan manajemen tag](/images/note-app-3.webp)
+
+## Demo (Lokal)
+- Backend: `http://localhost:8000`
+- Frontend: `http://localhost:5173`
+
+## Fitur
+- Autentikasi JWT: daftar, login, sesi persisten.
+- CRUD catatan dengan kolom teks kaya, tag, serta pin/unpin.
+- Pencarian berdasarkan judul/konten + filter tag.
+- UI responsif dengan pengalih tema gelap/terang.
+- Notifikasi toast dan editor berbasis modal.
+- Pembaruan optimistik agar interaksi catatan terasa mulus.
+
+## Tech Stack
+- **Frontend:** React 19, Vite, Tailwind CSS, React Router, Axios, React Modal, React Icons.
+- **Backend:** Node.js, Express.js, MongoDB via Mongoose, JWT, dotenv, cors, nodemon.
+
+## Sorotan UX
+- Editor fokus dengan alur keyboard-first dan indikator fokus yang jelas.
+- Pin untuk menjaga catatan penting tetap di atas.
+- Chip tag untuk mengelompokkan ide dan memfilter dengan cepat.
+- Tema gelap/terang yang disetel untuk kenyamanan membaca.
+
+## Struktur Proyek
+```
+Note-App/
+├── frontend/                  # Client Vite + React
+│   ├── src/
+│   │   ├── components/        # Komponen UI yang dapat digunakan ulang
+│   │   ├── pages/             # Halaman (Home, Login, SignUp)
+│   │   ├── context/           # Context tema
+│   │   ├── assets/            # Gambar/ikon
+│   │   └── utils/             # Instance Axios, helper
+│   └── package.json
+│
+├── backend/                   # API Express
+│   ├── app/                   # Controllers, routes, middlewares, models, utils, config
+│   ├── app.js                 # Setup Express
+│   ├── index.js               # Entri server
+│   └── package.json
+└── README.md
+```
+
+## Mulai Cepat
+
+### Prasyarat
+- Node.js 18+ (direkomendasikan)
+- MongoDB (lokal atau Atlas)
+
+### 1) Clone
+```bash
+git clone https://github.com/VoinzzZ/Note-App.git
+cd Note-App
+```
+
+### 2) Setup backend
+```bash
+cd backend
+npm install
+```
+Buat `.env` di `backend/`:
+```env
+ACCESS_TOKEN_SECRET=secret_anda_di_sini
+PORT=8000
+MONGODB_URI=uri_mongodb_anda_di_sini
+```
+Jalankan API:
+```bash
+npm start   # menggunakan nodemon
+```
+
+### 3) Setup frontend
+```bash
+cd ../frontend
+npm install
+npm run dev
+```
+Buka `http://localhost:5173`.
+
+## Gambaran API
+
+**Auth**
+- `POST /api/auth/create-account` — registrasi `{ fullName, email, password }`
+- `POST /api/auth/login` — login `{ email, password }`
+- `GET /api/auth/get-user` — pengguna saat ini (Authorization: Bearer token)
+
+**Notes**
+- `POST /api/notes/add-note` — buat `{ title, content, tags }`
+- `GET /api/notes/get-all-notes` — daftar catatan pengguna
+- `PUT /api/notes/edit-note/:noteId` — perbarui `{ title, content, tags, isPinned }`
+- `DELETE /api/notes/delete-note/:noteId` — hapus
+- `PUT /api/notes/update-note-pinned/:id` — toggle pin `{ isPinned }`
+- `GET /api/notes/search-notes?query=kata_kunci` — pencarian
+
+## Variabel Lingkungan
+
+**`.env` backend (wajib)**
+```env
+ACCESS_TOKEN_SECRET=secret_anda_di_sini
+PORT=8000
+MONGODB_URI=uri_mongodb_anda_di_sini
+```
+
+**`.env` frontend (opsional jika memakai proxy)**
+```env
+VITE_API_BASE_URL=http://localhost:8000/api
+```
+
+## Skrip
+
+**Frontend**
+```bash
+npm run dev       # server pengembangan
+npm run build     # build produksi
+npm run preview   # pratinjau hasil build
+npm run lint      # eslint
+```
+
+**Backend**
+```bash
+npm start         # server dengan nodemon
+npm test          # (placeholder)
+```
+
+## Pembaruan UI Terbaru
+- Menambahkan spacing overlay modal agar tidak menutupi navbar sticky.
+- Menambahkan toggle ThemeContext (gelap/terang) di navbar.
+- Penyempurnaan gaya kartu, input, dan form.
+
+## Kontribusi
+1. Fork & buat branch dari `main`.
+2. Jalankan lint/tes sebelum PR.
+3. Kirim PR dengan deskripsi jelas dan tangkapan layar untuk perubahan UI.
+
+## Lisensi
+MIT

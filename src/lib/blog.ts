@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import type { Language } from "@/i18n/translations";
 
 export interface BlogPost {
   metadata: {
@@ -21,9 +22,11 @@ const POSTS_DIR = path.join(process.cwd(), "content", "blog");
 
 function getMDXFiles(): string[] {
   if (!fs.existsSync(POSTS_DIR)) return [];
-  return fs
-    .readdirSync(POSTS_DIR)
-    .filter((file) => path.extname(file) === ".mdx");
+  return fs.readdirSync(POSTS_DIR).filter((file) => path.extname(file) === ".mdx");
+}
+
+function postFileName(slug: string, language: Language): string {
+  return language === "id" ? `${slug}.id.mdx` : `${slug}.mdx`;
 }
 
 function readMDXFile(filePath: string): BlogPost {
@@ -41,25 +44,36 @@ function readMDXFile(filePath: string): BlogPost {
       site: data.site || "",
       stack: data.stack || [],
     },
-    slug: path.basename(filePath, path.extname(filePath)),
+    slug: path.basename(filePath, path.extname(filePath)).replace(/\.id$/, ""),
     content,
   };
 }
 
-export function getPosts(): BlogPost[] {
+function postFilePath(slug: string, language: Language): string {
+  return path.join(POSTS_DIR, language === "id" ? `${slug}.id.mdx` : `${slug}.mdx`);
+}
+
+export function getPosts(language: Language = "en"): BlogPost[] {
   const files = getMDXFiles();
-  const posts = files.map((file) => readMDXFile(path.join(POSTS_DIR, file)));
+  const posts = files
+    .filter((file) =>
+      language === "id" ? file.endsWith(".id.mdx") : !file.endsWith(".id.mdx"),
+    )
+    .map((file) => readMDXFile(path.join(POSTS_DIR, file)));
 
   // Sort by publishedAt descending
   return posts.sort(
     (a, b) =>
       new Date(b.metadata.publishedAt).getTime() -
-      new Date(a.metadata.publishedAt).getTime()
+      new Date(a.metadata.publishedAt).getTime(),
   );
 }
 
-export function findPostBySlug(slug: string): BlogPost | null {
-  const filePath = path.join(POSTS_DIR, `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) return null;
-  return readMDXFile(filePath);
+export function findPostBySlug(slug: string, language: Language = "en"): BlogPost | null {
+  const preferred = postFilePath(slug, language);
+  const fallback = postFilePath(slug, language === "id" ? "en" : "id");
+
+  if (fs.existsSync(preferred)) return readMDXFile(preferred);
+  if (fs.existsSync(fallback)) return readMDXFile(fallback);
+  return null;
 }

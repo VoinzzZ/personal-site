@@ -1,0 +1,147 @@
+---
+title: "Membangun VoinzNext: Alasan Saya Membuat Generator Proyek Next.js Sendiri"
+publishedAt: "2026-07-14"
+summary: "Bagaimana saya membangun tool CLI dengan Go untuk mengotomatiskan setup proyek Next.js — men-scaffold workspace lengkap beserta database, autentikasi, API layer, dan testing dalam hitungan detik alih-alih 30 menit."
+tag: "Go"
+image: "/images/voinznext.webp"
+github: "https://github.com/VoinzzZ/VoinzNext"
+stack: [Go, Bash, CMD, PowerShell]
+---
+
+Sebagai web developer, salah satu tugas yang paling sering saya lakukan adalah memulai proyek baru. Next.js hampir selalu menjadi framework pilihan saya karena fitur SSR, optimasi, dan ekosistemnya yang matang.
+
+Namun ada satu masalah klasik: **setup awal terasa membosankan dan memakan waktu.**
+
+Setiap kali membuat proyek Next.js baru, saya harus:
+
+1. Memilih dan mengonfigurasi UI library (shadcn/ui atau daisyUI)
+2. Menyiapkan database dengan Prisma atau Drizzle ORM
+3. Mengonfigurasi autentikasi (NextAuth, Clerk, atau Lucia)
+4. Menghubungkan lapisan API (tRPC, GraphQL, atau REST)
+5. Menginstal framework testing (Vitest/Jest/Playwright)
+6. Menyiapkan Docker, ESLint, Prettier, dan `.env.example`
+
+**Proses ini memakan waktu 20–30 menit setiap kalinya**, belum termasuk men-debug konfigurasi yang tidak cocok atau salah ketik di `package.json`.
+
+Saya tahu saya tidak sendirian — banyak developer menghadapi masalah yang sama. Memang ada solusi seperti `create-t3-app`, tetapi terkadang opsi library yang disediakan belum sesuai dengan kebutuhan saat itu. Saya membutuhkan sesuatu yang **fleksibel, cepat, dan disesuaikan dengan alur kerja saya**.
+
+Itulah alasan saya membangun **VoinzNext**.
+
+---
+
+## Apa itu VoinzNext?
+
+**VoinzNext** adalah CLI tool interaktif yang saya rancang untuk men-scaffold proyek Next.js lengkap dengan tech stack pilihan Anda — **dalam hitungan detik**.
+
+Cukup jalankan:
+```bash
+npx voinznext init
+```
+
+CLI akan menampilkan survei interaktif tentang preferensi Anda (router, bahasa, database, auth, UI library, dll.), lalu **secara otomatis menghasilkan** struktur folder lengkap berisi:
+- Semua dependensi terinstal
+- File konfigurasi siap pakai (Tailwind, TypeScript, Docker, dll.)
+- Skema database dan boilerplate autentikasi
+- File `.env.example` yang sudah terkonfigurasi
+- Repositori git yang sudah terinisialisasi (opsional)
+
+**Proses yang biasanya memakan 20–30 menit kini selesai dalam 30 detik.**
+
+---
+
+## Bagaimana Saya Membangunnya
+
+### 1. Mengapa Go Alih-Alih Node.js?
+
+Mungkin terdengar tidak biasa — membangun generator Next.js (JavaScript) menggunakan Go. Namun ini adalah keputusan desain yang disengaja karena Go menawarkan sejumlah keunggulan:
+
+- **Satu file binary tanpa dependensi.** Pengguna tidak perlu menginstal runtime Node.js global atau menunggu instalasi paket CLI yang berat.
+- **Kompilasi dan eksekusi yang cepat.** Go sangat cepat dalam operasi I/O dan kalkulasi dependensi.
+- **Embedded templates.** Fitur bawaan `embed` pada Go memungkinkan saya menanamkan template boilerplate Next.js langsung ke dalam binary tanpa membaca direktori eksternal saat runtime.
+
+### 2. Distribusi: npm + GitHub Releases
+
+Saya ingin tool ini mudah diakses, sehingga saya mendistribusikannya melalui **dua jalur**:
+
+**Melalui npm:**
+```bash
+npx voinznext init
+```
+Paket npm hanyalah wrapper kecil yang secara otomatis mengunduh binary Go terbaru dari GitHub Releases.
+
+**Melalui Go install (untuk developer Go):**
+```bash
+go install github.com/VoinzzZ/VoinzNext/cmd/voinznext@latest
+```
+
+Dengan strategi ini, tool dapat digunakan oleh siapa saja — baik developer JavaScript maupun antusias Go.
+
+### 3. Fitur Auto-Update
+
+Salah satu fitur favorit saya: **`voinznext update`** — tool dapat memperbarui dirinya sendiri tanpa instalasi ulang manual.
+
+Hal ini cukup menantang, terutama di Windows, karena binary yang sedang berjalan tidak bisa ditimpa langsung. Solusinya? Saya membuat skrip `.bat` sementara yang menunggu proses utama selesai, mengganti binary lama dengan yang baru, lalu menghapus dirinya sendiri. Pola self-delete ini secara teknis menarik dan membuat UX terasa jauh lebih mulus.
+
+---
+
+## Tantangan Teknis
+
+Membangun VoinzNext bukan sekadar menulis file teks. Untuk membuatnya siap produksi, saya harus menyelesaikan beberapa tantangan rekayasa perangkat lunak:
+
+### 1. Menjaga Integritas File dengan Atomic Generation
+
+Jika generator gagal di tengah proses (akibat gangguan jaringan atau pembatalan pengguna), direktori proyek bisa rusak atau setengah jadi.
+
+**Solusi:** Generator VoinzNext membuat proyek di direktori sementara (`.tmp-*`) terlebih dahulu. Setelah semua langkah selesai dengan sukses, direktori sementara di-rename secara atomik ke folder proyek tujuan. Jika gagal, direktori sementara langsung dibersihkan.
+
+### 2. Self-Update Binary di Windows
+
+VoinzNext memiliki perintah `voinznext update` untuk memperbarui dirinya sendiri. Di Linux/macOS, mengganti binary yang sedang berjalan cukup mudah. Namun di Windows, file `.exe` yang aktif dikunci oleh OS dan tidak dapat ditimpa secara langsung.
+
+**Solusi:** Saya merancang pola self-delete/self-replace khusus Windows menggunakan skrip `.bat` sementara. CLI mengunduh versi baru ke file `.new`, menjalankan skrip `.bat` di background, lalu segera keluar dari proses CLI utama. Skrip `.bat` menunggu proses utama berhenti, menimpa file lama dengan file baru, lalu menghapus dirinya sendiri.
+
+### 3. Mencegah Rate Limit GitHub API
+
+CLI secara otomatis memeriksa versi terbaru dari GitHub API setiap kali dijalankan. Tanpa batas, hal ini bisa cepat memicu rate limit GitHub.
+
+**Solusi:** Saya menerapkan mekanisme caching sederhana. Hasil pengecekan versi disimpan di cache lokal dengan TTL (Time-to-Live) 24 jam. CLI hanya melakukan query ke GitHub API satu kali per hari.
+
+---
+
+## Hasil & Dampak
+
+Sekarang, setiap kali mendapat ide proyek baru atau harus mulai bekerja, saya hanya membutuhkan **kurang dari 10 detik** untuk mendapatkan workspace Next.js siap pakai, lengkap dengan skema database, UI library, setup testing, dan container Docker yang sudah berjalan.
+
+Proyek ini mengajarkan saya aspek di luar web development konvensional:
+- Interaksi filesystem tingkat rendah (API filesystem OS)
+- Distribusi perangkat lunak lintas platform (Windows, macOS, Linux)
+- Desain Developer Experience (DX) melalui CLI yang interaktif dan informatif
+
+---
+
+## Coba VoinzNext Sekarang!
+
+Proyek ini sepenuhnya open-source. Anda dapat melihat kode sumbernya, berkontribusi, atau mencobanya langsung untuk proyek Next.js berikutnya:
+
+**GitHub:** [github.com/VoinzzZ/VoinzNext](https://github.com/VoinzzZ/VoinzNext)  
+**Mulai Cepat:** `npx voinznext init`
+
+## Opsi Tech Stack yang Didukung
+
+| Kategori | Pilihan yang Tersedia |
+|---|---|
+| **Router** | App Router / Pages Router |
+| **Bahasa** | TypeScript / JavaScript |
+| **Package Manager** | pnpm / npm / Yarn |
+| **CSS Framework** | Tailwind CSS / CSS Modules / None |
+| **UI Library** | shadcn/ui / daisyUI / None |
+| **Database** | MySQL / PostgreSQL / MongoDB / Supabase / TiDB / None |
+| **ORM** | Prisma / Drizzle ORM / Raw Driver / None |
+| **Autentikasi** | NextAuth.js / Clerk / Lucia / None |
+| **Pola API** | tRPC / REST / GraphQL / None |
+| **Testing** | Vitest / Jest / Playwright / None |
+| **Docker** | Ya / Tidak |
+| **ESLint + Prettier** | Ya / Tidak |
+| **Git Init** | Ya / Tidak |
+
+*Bagaimana biasanya Anda menyiapkan boilerplate Next.js? Mari diskusikan di kolom komentar!*

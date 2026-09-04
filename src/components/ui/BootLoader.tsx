@@ -7,10 +7,12 @@ import {
   LazyAnimatedSpan,
   LazyFlickeringGrid,
 } from "@/components/effects/DynamicEffects";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 const BOOT_STORAGE_KEY = "boot-seen";
 
 export default function BootLoader({ children }: { children: React.ReactNode }) {
+  const { messages } = useLanguage();
   const [done, setDone] = useState(false);
   const [fading, setFading] = useState(false);
   const [skipBoot, setSkipBoot] = useState(false);
@@ -144,51 +146,49 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
 
               <LazyAnimatedSpan duration={0.12}>
                 <span>
-                  <span className="text-purple-400">✔</span> Loading kernel modules
+                  <span className="text-purple-400">✔</span> {messages.boot.loadingKernel}
                   ...... <span className="text-green-400">[OK]</span>
                 </span>
               </LazyAnimatedSpan>
               <LazyAnimatedSpan duration={0.12}>
                 <span>
-                  <span className="text-purple-400">✔</span> Initializing network
-                  stack .. <span className="text-green-400">[OK]</span>
+                  <span className="text-purple-400">✔</span> {messages.boot.network} ..{" "}
+                  <span className="text-green-400">[OK]</span>
                 </span>
               </LazyAnimatedSpan>
               <LazyAnimatedSpan duration={0.18}>
                 <span>
-                  <span className="text-purple-400">✔</span> Mounting filesystems
+                  <span className="text-purple-400">✔</span> {messages.boot.filesystems}
                   ........ <span className="text-green-400">[OK]</span>
                 </span>
               </LazyAnimatedSpan>
               <LazyAnimatedSpan duration={0.18}>
                 <span>
-                  <span className="text-purple-400">✔</span> Starting display manager
+                  <span className="text-purple-400">✔</span> {messages.boot.display}
                   .... <span className="text-green-400">[OK]</span>
                 </span>
               </LazyAnimatedSpan>
 
               <LazyTypingAnimation duration={15}>
-                Service ready. Listening on port 3000.
+                {messages.boot.ready}
               </LazyTypingAnimation>
 
               <LazyAnimatedSpan duration={0.25}>
                 <span>
-                  <span className="text-purple-400">✔</span> Fetching visitor IP
-                  ......... [
-                  <span className="text-purple-400">{visitorData.ip}</span>]
+                  <span className="text-purple-400">✔</span> {messages.boot.fetchingIp}
+                  ......... [<span className="text-purple-400">{visitorData.ip}</span>]
                 </span>
               </LazyAnimatedSpan>
               <LazyAnimatedSpan duration={0.3}>
                 <span>
-                  <span className="text-purple-400">✔</span> Geolocating country
-                  ......... [
-                  <span className="text-cyan-400">{visitorData.city}</span>]
+                  <span className="text-purple-400">✔</span> {messages.boot.country}
+                  ......... [<span className="text-cyan-400">{visitorData.city}</span>]
                 </span>
               </LazyAnimatedSpan>
               <LazyAnimatedSpan duration={0.35}>
                 <span>
-                  <span className="text-purple-400">✔</span> Establishing secure
-                  channel . [<span className="text-cyan-400">TLS 1.3</span>]
+                  <span className="text-purple-400">✔</span> {messages.boot.secure} . [
+                  <span className="text-cyan-400">TLS 1.3</span>]
                 </span>
               </LazyAnimatedSpan>
 
@@ -199,7 +199,7 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
               <LazyAnimatedSpan duration={0.35}>
                 <span>
                   <span className="text-cyan-400">root@personal-site:~$</span>{" "}
-                  <span className="text-green-400">Welcome visitor to</span>
+                  <span className="text-green-400">{messages.boot.welcome}</span>
                 </span>
               </LazyAnimatedSpan>
               <LazyAnimatedSpan duration={0.4}>
@@ -212,7 +212,13 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
                 <span className="text-gray-500">─── Personal site v3.2.1 ───</span>
               </LazyAnimatedSpan>
 
-              <LazyAnimatedSpan delay={400} duration={0.3} onShow={() => { readyRef.current = true; }}>
+              <LazyAnimatedSpan
+                delay={400}
+                duration={0.3}
+                onShow={() => {
+                  readyRef.current = true;
+                }}
+              >
                 <span
                   className="inline-block cursor-pointer text-cyan-400 hover:text-cyan-300 underline underline-offset-4 subtle-blink"
                   onClick={(e) => {
@@ -220,9 +226,7 @@ export default function BootLoader({ children }: { children: React.ReactNode }) 
                     finish();
                   }}
                 >
-                  {isMobile
-                    ? "Click to continue..."
-                    : "Press ENTER to continue..."}
+                  {isMobile ? messages.boot.click : messages.boot.enter}
                 </span>
               </LazyAnimatedSpan>
             </LazyTerminal>

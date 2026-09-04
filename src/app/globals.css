@@ -46,7 +46,7 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  
+
   /* Brand colors */
   --color-brand-cyan: #22d3ee;
   --color-brand-cyan-dark: #06b6d4;
@@ -54,11 +54,11 @@
   --color-brand-purple-dark: #a855f7;
   --color-brand-green: #4ade80;
   --color-brand-green-dark: #22c55e;
-  
+
   /* Surface colors */
   --color-surface-card: #1a1a1a;
   --color-surface-nav: #1e1e1e;
-  
+
   /* Tailwind color mappings */
   --color-brand-cyan-400: var(--color-brand-cyan);
   --color-brand-cyan-500: var(--color-brand-cyan-dark);
@@ -71,7 +71,8 @@
 }
 
 @keyframes blink {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -95,8 +96,13 @@
 }
 
 @keyframes subtle-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .animate-fade-in-up {

@@ -1,24 +1,31 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { Metadata } from "next";
 import { findPostBySlug, getPosts } from "@/lib/blog";
 import { CustomMDX } from "@/components/shared/MdxRenderer";
 import { LazyScrambledContent } from "@/components/effects/DynamicEffects";
+import type { Language } from "@/i18n/translations";
 import TerminalPrompt from "./TerminalPrompt";
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
+function resolveLanguage(cookieStore: Awaited<ReturnType<typeof cookies>>): Language {
+  return cookieStore.get("preferred-language")?.value === "id" ? "id" : "en";
+}
+
 export async function generateStaticParams() {
-  const posts = getPosts();
+  const posts = getPosts("en");
   return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = findPostBySlug(slug);
+  const cookieStore = await cookies();
+  const post = findPostBySlug(slug, resolveLanguage(cookieStore));
 
   if (!post) return {};
 
@@ -30,7 +37,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function JournalDetailPage({ params }: Props) {
   const { slug } = await params;
-  const post = findPostBySlug(slug);
+  const cookieStore = await cookies();
+  const language = resolveLanguage(cookieStore);
+  const post = findPostBySlug(slug, language);
 
   if (!post) {
     notFound();

@@ -1,0 +1,269 @@
+---
+title: "Membangun RESTful API dengan Go dan Clean Architecture"
+publishedAt: "2026-02-19"
+summary: "REST API manajemen pengguna yang dibangun dengan Go (Golang) menggunakan prinsip Clean Architecture dan MySQL sebagai database — hanya dengan paket bawaan net/http."
+tag: "Go"
+image: "/images/golang-restfull-api.webp"
+github: "https://github.com/VoinzzZ/restfull-api-go"
+stack: [Go, MySQL]
+---
+
+RESTful API untuk manajemen pengguna yang dibangun dengan **Go (Golang)** menggunakan **Clean Architecture** dan **MySQL** sebagai database. Proyek ini fokus pada penulisan kode yang bersih, modular, dan mudah dirawat tanpa bergantung pada framework berat.
+
+## Tech Stack
+
+| Teknologi | Deskripsi |
+|---|---|
+| **Go** | Bahasa backend |
+| **net/http** | HTTP server (bawaan) |
+| **MySQL** | Database |
+| **godotenv** | Memuat variabel lingkungan |
+| **bcrypt** | Hashing kata sandi |
+
+## Struktur Proyek
+
+```
+restfull-api-go/
+├── cmd/api/main.go                          # Entry point
+├── config/config.go                         # Konfigurasi
+├── internal/
+│   ├── domain/user.go                       # Entitas & interface
+│   ├── repository/user_repository.go        # Lapisan database
+│   ├── usecase/user_usecase.go              # Logika bisnis
+│   └── delivery/http/
+│       ├── handler/user_handler.go          # HTTP handlers
+│       ├── middleware/logger.go             # Middleware logger
+│       └── router/
+│           ├── router.go                    # Router utama
+│           └── user_router.go               # Route pengguna
+├── pkg/
+│   ├── database/mysql.go                    # Koneksi DB
+│   └── helper/response.go                   # Helper response
+├── .env.example                             # Template environment
+├── Makefile                                 # Skrip build
+└── go.mod
+```
+
+## Arsitektur
+
+Proyek ini menggunakan **Clean Architecture** dengan alur request/response berikut:
+
+```
+Request → Router → Middleware → Handler → Usecase → Repository → Database
+                                                                      ↓
+Response ← Router ← Middleware ← Handler ← Usecase ← Repository ← Database
+```
+
+| Lapisan | Package | Tanggung Jawab |
+|---|---|---|
+| **Domain** | `internal/domain` | Entitas & kontrak interface |
+| **Repository** | `internal/repository` | Operasi database |
+| **Usecase** | `internal/usecase` | Logika bisnis |
+| **Handler** | `internal/delivery/http/handler` | Request/response HTTP |
+| **Middleware** | `internal/delivery/http/middleware` | Kebutuhan lintas lapisan |
+| **Router** | `internal/delivery/http/router` | Definisi route |
+
+## Mulai Cepat
+
+### 1. Clone & Instal
+
+```bash
+git clone https://github.com/VoinzzZ/restfull-api-go.git
+cd restfull-api-go
+go mod tidy
+```
+
+### 2. Setup Environment
+
+```bash
+cp .env.example .env
+```
+
+Isi `.env` Anda:
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=password_anda
+DB_NAME=go_api_db
+PORT=8080
+```
+
+### 3. Setup Database
+
+```sql
+CREATE DATABASE go_api_db;
+
+USE go_api_db;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+### 4. Jalankan Server
+
+```bash
+make run
+```
+
+Output:
+```
+2026/02/19 01:12:00 Database connected successfully
+2026/02/19 01:12:00 Server starting on http://localhost:8080
+```
+
+## Endpoint API
+
+Base URL: `http://localhost:8080`
+
+| Method | Endpoint | Deskripsi |
+|---|---|---|
+| `POST` | `/api/v1/users` | Buat pengguna baru |
+| `GET` | `/api/v1/users` | Ambil semua pengguna |
+| `GET` | `/api/v1/users/{id}` | Ambil pengguna berdasarkan ID |
+| `PUT` | `/api/v1/users/{id}` | Perbarui pengguna |
+| `DELETE` | `/api/v1/users/{id}` | Hapus pengguna |
+
+## Referensi API
+
+### Buat Pengguna
+
+**POST** `/api/v1/users`
+
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+Response `201 Created`:
+
+```json
+{
+  "status": 201,
+  "message": "User created successfully",
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "created_at": "2026-02-19T01:12:00Z",
+    "updated_at": "2026-02-19T01:12:00Z"
+  }
+}
+```
+
+### Ambil Semua Pengguna
+
+**GET** `/api/v1/users`
+
+Response `200 OK`:
+
+```json
+{
+  "status": 200,
+  "message": "Users retrieved successfully",
+  "data": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "created_at": "2026-02-19T01:12:00Z",
+      "updated_at": "2026-02-19T01:12:00Z"
+    }
+  ]
+}
+```
+
+### Ambil Pengguna berdasarkan ID
+
+**GET** `/api/v1/users/{id}`
+
+Response `200 OK`:
+
+```json
+{
+  "status": 200,
+  "message": "User found",
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com"
+  }
+}
+```
+
+Response `404 Not Found`:
+
+```json
+{
+  "status": 404,
+  "message": "user not found"
+}
+```
+
+### Perbarui Pengguna
+
+**PUT** `/api/v1/users/{id}`
+
+```json
+{
+  "name": "John Updated",
+  "email": "john.new@example.com"
+}
+```
+
+### Hapus Pengguna
+
+**DELETE** `/api/v1/users/{id}`
+
+Response `200 OK`:
+
+```json
+{
+  "status": 200,
+  "message": "User deleted successfully"
+}
+```
+
+## Pengujian dengan cURL
+
+```bash
+# Buat pengguna
+curl -X POST http://localhost:8080/api/v1/users \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Doe","email":"john@example.com","password":"password123"}'
+
+# Ambil semua pengguna
+curl http://localhost:8080/api/v1/users
+
+# Ambil pengguna berdasarkan ID
+curl http://localhost:8080/api/v1/users/1
+
+# Perbarui pengguna
+curl -X PUT http://localhost:8080/api/v1/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Updated","email":"john.new@example.com"}'
+
+# Hapus pengguna
+curl -X DELETE http://localhost:8080/api/v1/users/1
+```
+
+## Perintah Makefile
+
+```bash
+make run    # Jalankan server (pengembangan)
+make build  # Kompilasi ke binary
+make start  # Jalankan binary hasil kompilasi
+make clean  # Hapus binary
+```
+
+> Kode sumber tersedia di [GitHub](https://github.com/VoinzzZ/restfull-api-go).

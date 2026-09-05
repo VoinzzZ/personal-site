@@ -142,7 +142,7 @@ export default function ChatWidget() {
   useEffect(() => {
     if (!isOpen) return;
 
-    const handleMouseMove = (event: MouseEvent) => {
+    const handlePointerMove = (event: PointerEvent) => {
       if (dragOffsetRef.current) {
         const offset = dragOffsetRef.current;
         const nextLeft = event.clientX - offset.x;
@@ -172,24 +172,26 @@ export default function ChatWidget() {
       }
     };
 
-    const handleMouseUp = () => {
+    const stopInteraction = () => {
       dragOffsetRef.current = null;
       resizeStartRef.current = null;
       document.body.style.userSelect = "";
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", stopInteraction);
+    window.addEventListener("pointercancel", stopInteraction);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", stopInteraction);
+      window.removeEventListener("pointercancel", stopInteraction);
       document.body.style.userSelect = "";
     };
   }, [isOpen]);
 
-  const startDrag = (event: React.MouseEvent) => {
-    if (event.button !== 0) return;
+  const startDrag = (event: React.PointerEvent) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
     const panel = panelRef.current;
     if (!panel) return;
 
@@ -202,7 +204,8 @@ export default function ChatWidget() {
     document.body.style.userSelect = "none";
   };
 
-  const startResize = (event: React.MouseEvent) => {
+  const startResize = (event: React.PointerEvent) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
     event.stopPropagation();
     const panel = panelRef.current;
     if (!panel) return;
@@ -327,8 +330,8 @@ export default function ChatWidget() {
           className="relative mb-3 w-[92vw] sm:w-96 h-[500px] max-w-[calc(100vw-1.5rem)] max-h-[calc(100vh-1.5rem)] min-w-[280px] min-h-[320px] flex flex-col rounded-xl border border-white/10 bg-[#181818]/95 backdrop-blur-md shadow-2xl overflow-hidden font-sans text-white"
         >
           <div
-            onMouseDown={startDrag}
-            className="flex items-center justify-between px-4 py-3 bg-[#202020] border-b border-white/10 cursor-move select-none"
+            onPointerDown={startDrag}
+            className="flex items-center justify-between px-4 py-3 bg-[#202020] border-b border-white/10 cursor-move select-none touch-none"
           >
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
@@ -427,9 +430,9 @@ export default function ChatWidget() {
 
           <button
             type="button"
-            onMouseDown={startResize}
+            onPointerDown={startResize}
             aria-label="Resize chat window"
-            className="absolute bottom-0 right-0 h-5 w-5 cursor-nwse-resize bg-linear-to-tl from-cyan-400/70 from-0% from-20% via-transparent via-20% via-40% to-cyan-400/70 to-40% to-60%"
+            className="absolute bottom-0 right-0 h-6 w-6 cursor-nwse-resize touch-none bg-linear-to-tl from-cyan-400/80 from-0% from-25% via-transparent via-25% via-50% to-cyan-400/80 to-50% to-75%"
           />
         </div>
       )}

@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 import { Metadata } from "next";
 import { findPostBySlug, getPosts } from "@/lib/blog";
 import { CustomMDX } from "@/components/shared/MdxRenderer";
-import { LazyScrambledContent } from "@/components/effects/DynamicEffects";
 import type { Language } from "@/i18n/translations";
 import TerminalPrompt from "./TerminalPrompt";
 
@@ -125,9 +124,7 @@ export default async function JournalDetailPage({ params }: Props) {
             </div>
 
             {/* Content */}
-            <LazyScrambledContent>
-              <CustomMDX source={post.content} />
-            </LazyScrambledContent>
+            <CustomMDX source={post.content} />
           </div>
         </div>
 

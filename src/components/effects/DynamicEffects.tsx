@@ -34,19 +34,3 @@ export const LazyAnimatedSpan = dynamic(
     })),
   { ssr: false }
 );
-
-export const LazyScrambledText = dynamic(
-  () =>
-    import("@/components/effects/ScrambledText").then((m) => ({
-      default: m.default,
-    })),
-  { ssr: false }
-);
-
-export const LazyScrambledContent = dynamic(
-  () =>
-    import("@/components/shared/ScrambledContent").then((m) => ({
-      default: m.default,
-    })),
-  { ssr: false }
-);

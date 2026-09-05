@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import TypingHeading from "@/components/effects/TypingHeading";
 import LetterGlitch from "@/components/effects/LetterGlitch";
-import { LazyScrambledText } from "@/components/effects/DynamicEffects";
 import SkillCard from "@/components/ui/SkillCard";
 import FadeIn from "@/components/ui/FadeIn";
 import { skills } from "@/constants";
@@ -86,16 +85,9 @@ export default function AboutSection() {
                 {messages.about.profileTitle}
               </p>
 
-              <LazyScrambledText
-                key={language}
-                className="m-0! max-w-none! text-sm sm:text-base md:text-lg text-gray-300 text-justify mb-6"
-                radius={45}
-                duration={1.2}
-                speed={0.3}
-                scrambleChars=""
-              >
+              <p className="m-0! max-w-none! text-sm sm:text-base md:text-lg text-gray-300 text-left mb-6">
                 {messages.about.summary}
-              </LazyScrambledText>
+              </p>
 
               <div className="h-5" />
 

@@ -27,7 +27,7 @@ export const translations = {
     about: {
       profileTitle: "[PROFILE SUMMARY]",
       summary:
-        "A system-minded Network and Software Engineer currently pursuing an Applied Bachelor's in Telecommunications Engineering. Focused on bridging network infrastructure, telecom protocols, and full-stack software architecture. Adept at navigating cross-platform environments, untangling complex backend logic, and optimizing low-level systems. Driven by a structured problem-solving approach to engineer resilient, high-availability digital infrastructure.",
+        "A dedicated Network and Software Engineering student pursuing an Applied Bachelor’s in Telecommunications Engineering. Driven by a strong passion for telecom protocols, network infrastructure, and full-stack development. Continuously expanding technical expertise in backend systems, cross-platform environments, and low-level performance to build reliable, high-availability digital solutions.",
     },
     careers: {
       empty: "No experiences found - currently building...",
@@ -125,7 +125,7 @@ export const translations = {
     about: {
       profileTitle: "[RINGKASAN PROFIL]",
       summary:
-        "Seorang Network dan Software Engineer dengan pola pikir sistem yang sedang menempuh Sarjana Terapan Teknik Telekomunikasi. Berfokus menjembatani infrastruktur jaringan, protokol telekomunikasi, dan arsitektur perangkat lunak full-stack. Terampil bekerja di lingkungan lintas platform, mengurai logika backend yang kompleks, dan mengoptimalkan sistem tingkat rendah. Didorong oleh pendekatan pemecahan masalah yang terstruktur untuk membangun infrastruktur digital yang tangguh dan berkeandalan tinggi.",
+        "Saya adalah seorang Software & Network Engineering Enthusiast yang berfokus pada integrasi infrastruktur jaringan dan pengembangan perangkat lunak. Memiliki ketertarikan mendalam terhadap protokol telekomunikasi, sistem backend, dan arsitektur full-stack. Saya aktif mengeksplorasi optimasi sistem serta lingkungan cross-platform untuk terus belajar merancang solusi digital yang andal dan efisien.",
     },
     careers: {
       empty: "Belum ada pengalaman - sedang dikembangkan...",

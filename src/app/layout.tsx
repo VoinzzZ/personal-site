@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import BootLoader from "@/components/ui/BootLoader";
+import ChatWidget from "@/components/chat/ChatWidget";
 import { FlickeringGrid } from "@/components/magicui/FlickeringGrid";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 import type { Language } from "@/i18n/translations";
@@ -59,6 +60,7 @@ export default async function RootLayout({
               {children}
             </main>
             <Footer />
+            <ChatWidget />
             <Analytics />
             <SpeedInsights />
           </BootLoader>

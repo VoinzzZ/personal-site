@@ -1,6 +1,7 @@
 import { site } from "@/constants/site";
 import { skills } from "@/constants/skills";
-import { translations } from "@/i18n/translations";
+import { translations, type Language } from "@/i18n/translations";
+import { getPosts } from "@/lib/blog";
 
 const experienceContext = Object.entries(translations)
   .map(([language, messages]) => {
@@ -15,6 +16,50 @@ const experienceContext = Object.entries(translations)
   })
   .join("\n\n");
 
+function buildProjectsContext(): string {
+  const languages: Language[] = ["en", "id"];
+  const sections: string[] = [];
+
+  for (const language of languages) {
+    const posts = getPosts(language);
+    if (posts.length === 0) continue;
+
+    const entries = posts
+      .map((post) => {
+        const { metadata, content } = post;
+        const stack = metadata.stack?.length
+          ? ` Stack: ${metadata.stack.join(", ")}.`
+          : "";
+        const links = [
+          metadata.github ? `GitHub: ${metadata.github}` : null,
+          metadata.site ? `Live site: ${metadata.site}` : null,
+        ]
+          .filter(Boolean)
+          .join(" | ");
+        const body = content
+          .replace(/---[\s\S]*?---/, "")
+          .replace(/import\s+.*?;\s*/g, "")
+          .replace(/<[^>]+>/g, " ")
+          .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+          .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+          .replace(/\|/g, " ")
+          .replace(/[#*`>_~]/g, "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, 900);
+
+        return `- ${metadata.title} (${metadata.publishedAt}; tag: ${metadata.tag})\n  Summary: ${metadata.summary}${stack}\n  ${links}\n  Details: ${body}`;
+      })
+      .join("\n");
+
+    sections.push(`${language.toUpperCase()} journals/projects:\n${entries}`);
+  }
+
+  return sections.join("\n\n");
+}
+
+const projectsContext = buildProjectsContext();
+
 export const portfolioContext = `
 Name: ${site.name}
 Title: ${site.title}
@@ -27,6 +72,8 @@ LinkedIn: ${site.linkedin}
 Skills: ${skills.map((skill) => skill.name).join(", ")}
 
 ${experienceContext}
+
+${projectsContext}
 `.trim();
 
 export const portfolioSystemPrompt = `

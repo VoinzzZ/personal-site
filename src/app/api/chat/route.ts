@@ -1,12 +1,13 @@
 import { portfolioSystemPrompt } from "@/lib/portfolio-context";
 
-const API_BASE_URL = "https://apinex.bond/v1";
+const DEFAULT_API_BASE_URL =
+  "https://generativelanguage.googleapis.com/v1beta/openai";
 const MAX_MESSAGES = 20;
 const MAX_MESSAGE_LENGTH = 4000;
 const DEFAULT_MODELS = [
-  "free/qwen-3.8-max",
-  "free/gpt-5.6-luna",
-  "free/glm-5.3-flash",
+  "gemini-flash-lite-latest",
+  "gemini-3.5-flash",
+  "gemini-flash-latest",
 ];
 const REQUEST_TIMEOUT_MS = 30_000;
 
@@ -26,7 +27,11 @@ function isChatMessage(value: unknown): value is ChatMessage {
 }
 
 function getConfiguredModels(): string[] {
-  const raw = process.env.APINEX_MODELS ?? process.env.APINEX_MODEL;
+  const raw =
+    process.env.GEMINI_MODELS ??
+    process.env.GEMINI_MODEL ??
+    process.env.APINEX_MODELS ??
+    process.env.APINEX_MODEL;
   if (!raw) return DEFAULT_MODELS;
   const models = raw
     .split(",")
@@ -63,13 +68,22 @@ export async function POST(request: Request) {
     return Response.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  const apiKey = process.env.APINEX_API_KEY;
+  const apiKey =
+    process.env.GEMINI_API_KEY ??
+    process.env.GOOGLE_AI_API_KEY ??
+    process.env.GOOGLE_API_KEY ??
+    process.env.APINEX_API_KEY;
   if (!apiKey) {
     return Response.json(
       { error: "Chat service is not configured" },
       { status: 503 },
     );
   }
+
+  const apiBaseUrl =
+    process.env.GEMINI_API_BASE_URL ??
+    process.env.AI_API_BASE_URL ??
+    DEFAULT_API_BASE_URL;
 
   const models = getConfiguredModels();
   let lastError: { status: number; body: string } | null = null;
@@ -78,7 +92,7 @@ export async function POST(request: Request) {
     const { signal, clearTimeout: clearRequestTimeout } = getTimeoutSignal();
 
     try {
-      const upstream = await fetch(`${API_BASE_URL}/chat/completions`, {
+      const upstream = await fetch(`${apiBaseUrl}/chat/completions`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${apiKey}`,
@@ -111,7 +125,7 @@ export async function POST(request: Request) {
       const detail = await upstream.text().catch(() => "");
       lastError = { status: upstream.status, body: detail };
       console.error(
-        `APInex chat request failed for model ${model}:`,
+        `Gemini chat request failed for model ${model}:`,
         upstream.status,
         detail,
       );
